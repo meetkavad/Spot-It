@@ -1,0 +1,14 @@
+.cat-chat-image{
+    margin-top : 80px;
+    height : 50vh;
+    width : 50vh;
+}
+.cat-image-container{
+    display: flex;
+    justify-content: center;
+}
+
+h2{
+    padding :0px ;
+    margin : 0px auto ;
+}
