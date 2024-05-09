@@ -50,14 +50,15 @@ const NotificationPage = () => {
           <h1 className="notifications-text">Notifications</h1>
 
           <div className="notification-container">
-            {data.map((notification) => (
-              <div key={notification._id} className="notification-box">
-                <p className="notification-text">{notification.text}</p>
-                <p className="notification-timestamp">
-                  {toDate(notification.timestamp)}
-                </p>
-              </div>
-            ))}
+            {data &&
+              data.map((notification) => (
+                <div key={notification._id} className="notification-box">
+                  <p className="notification-text">{notification.text}</p>
+                  <p className="notification-timestamp">
+                    {toDate(notification.timestamp)}
+                  </p>
+                </div>
+              ))}
           </div>
         </div>
       </div>
