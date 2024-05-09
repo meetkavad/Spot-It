@@ -1,0 +1,206 @@
+body::-webkit-scrollbar {
+  display: none;
+}
+.user-page-container {
+    padding: 20px;
+  }
+  
+  .create-post-button-container {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .create-post-button {
+    font-size: 2.1rem;
+    
+    position : fixed;
+    top : 86vh;
+    left : 90vw;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 100%;
+    padding: 10px 20px;
+    cursor: pointer;
+    border : 3px solid black;
+    box-shadow:  2px black ;
+  }
+
+  .search-bar{
+    display: flex;
+    flex-direction: row;
+    
+    margin-bottom : 35px ;
+  }
+
+  .search-item-input{
+    border-radius: 5px;
+    border : 2px solid black;
+  }
+
+  .search-item-button{
+    margin-left : 10px ;
+    border-radius : 5px ;
+    background-color: white;
+    color : black;
+    font-weight: bold;
+    padding : 0px 15px ;
+    cursor: pointer;
+  }
+
+  .search-item-button:hover{
+    border : 2px solid black;
+    transition : 0.2s ease;
+    background-color: black;
+    color : white;
+  }
+
+  .lost-found-buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: -20px;
+    margin-bottom : 10px ;
+  }
+  .lost-post-button{
+    font-size: 2.1rem;
+    margin : 20px 20px;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 100%;
+    padding: 10px 20px;
+    cursor: pointer;
+    border : 3px solid black;
+    box-shadow:  2px black ;
+    font-weight: bold;
+  }
+
+  .found-post-button{
+    font-size: 2.1rem;    
+    margin : 20px 20px ;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 100%;
+    padding: 10px 20px;
+    cursor: pointer;
+    border : 3px solid black;
+    box-shadow:  2px black ;
+    font-weight: bold;
+  }
+
+  .green{
+    background-color: black;
+    color : white;
+    transition : 0.2s ease ;
+  }
+
+  .red{
+    background-color: white;
+    color: black;
+    transition: 0.3s ease;
+  }
+
+  .posts-container {
+    display: grid;
+    grid-template-columns: 23.5% 23.5% 23.5% 23.5%;
+    gap: 25px;
+  }
+  
+  .post-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    height: 72vh ;
+    overflow: hidden;
+  }
+
+  .post-username{
+    clear: both;
+    color : black;
+    text-align: left;
+    margin: -20px ;
+  }
+
+  .post-type {
+    font-weight: bold;
+    font-size: 1.2rem;
+    color :white;
+    position: relative;
+    left : 220px;
+    bottom : 40px ;
+    background-color: black;
+    border-radius: 6%;
+    margin: 0px;
+    padding : 10px ;
+    text-align: left;
+    transition : 0.5s ease-in-out ;
+  }
+
+  .post-image {
+    width: 40vh;
+    height: 35vh;
+    border-radius: 8px;
+    margin-top : 15px;
+  }
+
+  .item-name{
+    display: flex;
+    flex-direction: row;
+  }
+  .location{
+    display: flex;
+    flex-direction: row;
+  }
+  .description {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .post-heading{
+    
+    font-weight: bold;
+    margin-bottom : -10px ;
+  }
+
+  .post-values{
+    margin-left : 10px ;
+    margin-bottom : -10px ;
+
+  }
+  
+  .description-heading {
+     flex : 8 ;
+  }
+
+  .post-description {
+    flex : 11;
+     height : 45px;
+     margin-bottom : 5px ;
+     overflow: scroll;
+     
+  }
+    .footer-buttons{
+      display: flex;
+      flex-direction: row;
+    }
+  .post-comment-button{
+    background-color: white;
+    border: none;
+    cursor: pointer;
+  }
+  .post-edit-button{
+    background-color: white;
+    border: none;
+     cursor : pointer;
+  }
+  .post-delete-button{
+    background-color: white;
+    border: none;
+    cursor : pointer;
+  }
+
+  
+

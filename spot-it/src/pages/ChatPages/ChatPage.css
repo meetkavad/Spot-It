@@ -1,0 +1,56 @@
+*{
+    box-sizing: border-box;
+}
+
+.cat-chat-image{
+    margin-top : 80px;
+    height : 50vh;
+    width : 50vh;
+}
+.cat-image-container{
+    display: flex;
+    justify-content: center;
+}
+
+h2{
+    padding :0px ;
+    margin : 0px auto ;
+}
+
+.search-user-container{
+    margin : 1vw;
+    width : 38vw;
+}
+
+.user-chat-container{
+    display: flex;
+    flex-direction: row;
+    height: 89vh;
+    overflow-x : hidden ;
+    width: 100vw;
+    margin: 1vh;
+}
+
+.user-friends-container{
+border : 2px solid black ;
+flex : 2;
+}
+
+.friend-chat-container{
+border : 2px solid black;
+flex: 5;
+}
+
+.hidden{
+    display: none;
+}
+
+.visible {
+    display : inline;
+}
+.visiblechat{
+    display : block;
+}
+.hiddenchat{
+    display : none;
+}
