@@ -1,0 +1,98 @@
+
+#register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+  }
+  
+  #home-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin: 0 auto;
+    height: 89vh;
+  }
+  
+  .spot-it-text {
+    flex: 0 1 50%;
+    padding: 0 50px;
+    margin-bottom: 75px;
+    padding-left : 55px;
+
+  }
+  
+  .spot-it-heading {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    margin-left : 180px;
+    color : black;
+  }
+  
+  .spot-it-subheading {
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+    color : black;
+  }
+  
+  .spot-it-description {
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+  }
+  
+  .spot-it-button {
+    padding: 10px 20px;
+    background-color: white;
+    color: black;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    border: 2px solid black;
+  }
+  .spot-it-button:hover{
+    color : white;
+    transition: 0.2s ease;
+    background-color : black;
+    border : 2px solid black;
+  }
+  
+  .spot-it-image {
+    margin-left : 100px;
+    padding : 50px;
+    flex: 0 1 50%;
+  }
+  
+  .spot-it-image img {
+    width: 76vh;
+    height: 76vh;
+    border-radius: 10px;
+  }
+
+  #footer {
+    background-color: #000;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+  }
+  
+  .footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .social-media-links a {
+    color: #fff;
+    text-decoration: none;
+    margin-right: 20px;
+  }
+  
+  .contact-info p {
+    margin: 0;
+  }
+  

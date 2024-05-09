@@ -1,0 +1,36 @@
+#user-navbar {
+    background-color: black;
+    color: white;
+    padding: 20px;
+    height: 11vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  img {
+      border-radius: 10px;
+      height: 50px; 
+      width: 100px; 
+  }
+
+  a {
+    text-decoration: none;
+  }
+  
+  #icons {
+    margin-right: -10px ;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+  }
+  
+  .icon {
+    margin-right: 40px;
+  }
+  
+  .icon a{
+    font-size: 1rem;
+    text-decoration: none; 
+  }

@@ -1,0 +1,35 @@
+.notifications-container{
+    text-align: center;
+    flex : 1 ;
+    background-color: black;
+    height : 89vh;
+    scroll-behavior: smooth;
+    overflow-y: scroll;
+    color : white;
+}
+
+.notifications-text{
+    margin-top : 20px ;
+    color : white;
+}
+
+.notification-box{
+    background-color: #333;
+    margin: 10px;
+    border-radius: 20px;
+    padding : 10px;
+}
+
+.notification-box:hover{
+    background-color: #555;
+    cursor : pointer;
+}
+
+.notification-timestamp{
+    font-size: 0.8rem;
+}
+
+.unread {
+    color : black;
+}
+

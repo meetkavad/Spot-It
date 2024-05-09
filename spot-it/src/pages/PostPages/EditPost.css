@@ -1,0 +1,25 @@
+.form-label{
+    margin-bottom: 20px;
+}
+
+.edit-form-group-button{
+    display: flex;
+    flex-direction: row;
+    /* margin-left : 17vh; */
+}
+
+.edit-button{
+    padding : 10px ;
+    margin-left : 100px;
+    background-color: #fff;
+    color: #000;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.edit-button:hover{
+    background-color: #333;
+    transition: 0.2s ease;
+    color: #e6e6fa;
+}
