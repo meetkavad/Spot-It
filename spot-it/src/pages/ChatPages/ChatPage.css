@@ -7,6 +7,7 @@
     height : 50vh;
     width : 50vh;
 }
+
 .cat-image-container{
     display: flex;
     justify-content: center;
@@ -20,37 +21,85 @@ h2{
 .search-user-container{
     margin : 1vw;
     width : 38vw;
+    scroll-behavior: smooth;
 }
 
-.user-chat-container{
+.container{
     display: flex;
     flex-direction: row;
-    height: 89vh;
+
+}
+
+.all-chat-container{
+    display: flex;
+    flex-direction: column;
+    height: 85vh;
     overflow-x : hidden ;
     width: 100vw;
     margin: 1vh;
+    margin-right: 0;
+    border : 2px solid black ;
+    flex: 2;
 }
 
-.user-friends-container{
-border : 2px solid black ;
-flex : 2;
+
+.chat-box{
+    height: 85vh;
+    border : 2px solid black;
+    flex: 6;
+    margin: 1vh;
+    margin-left: 0;
+    overflow: scroll;
 }
 
-.friend-chat-container{
-border : 2px solid black;
-flex: 5;
+/* conversation Component class: */
+
+.conversationComponentClass{
+    cursor: pointer
 }
 
-.hidden{
-    display: none;
+.conversationComponentClass:hover{
+    background-color: #4f4f4f;
 }
 
-.visible {
-    display : inline;
+.selectedClass{
+    color: white;
+    background-color: black;
 }
-.visiblechat{
-    display : block;
+.selectedClass:hover{
+    color: white;
+    background-color: black;
 }
-.hiddenchat{
-    display : none;
+
+.conversation-item{
+    padding: 0px 20px;
+    border-bottom: 2px solid red;
+    border-radius: 5px;
+}
+
+.user-chat-heading{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.online-dot{
+    position: relative;
+    top: 12px;
+    right: 15px;
+    display: inline-block;
+    height: 10px;
+    width: 10px;
+    border: 1px solid green;
+    border-radius: 50%;
+    background-color: green;
+}
+
+.user-chat-image{
+    height: 40px;
+    width: 40px;
+}
+
+.bold{
+    font-weight: bold;
 }

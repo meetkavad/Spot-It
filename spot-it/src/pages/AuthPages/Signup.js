@@ -80,6 +80,7 @@ const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorMessage("");
 
     var { username, email, password, confirmPassword } = formData;
     username = username.toLowerCase();
@@ -203,7 +204,7 @@ const Signup = () => {
               </button>
             </div>
 
-            <div style={{ color: "red", fontSize: "13px" }}>
+            <div className="red">
               <p>{errorMessage}</p>
             </div>
             <div className="signup-form-group-button">

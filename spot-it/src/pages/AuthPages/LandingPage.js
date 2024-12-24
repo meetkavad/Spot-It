@@ -14,7 +14,7 @@ const LandingPage = () => {
   return (
     <div>
       <Navbar />
-      <form id="register-container" onSubmit={handleSubmit}>
+      <div id="register-container">
         <div id="home-section">
           <div className="spot-it-text">
             <h1 className="spot-it-heading">Spot-It</h1>
@@ -26,7 +26,7 @@ const LandingPage = () => {
               connects you with the community to facilitate the return of lost
               items to their rightful owners.
             </p>
-            <button type="submit" className="spot-it-button">
+            <button onClick={handleSubmit} className="spot-it-button">
               Register
             </button>
           </div>
@@ -34,7 +34,8 @@ const LandingPage = () => {
             <img src="/assets/found.jpg" alt="Lost and found" />
           </div>
         </div>
-      </form>
+      </div>
+
       <footer id="footer">
         <div className="footer-content">
           <div className="social-media-links">

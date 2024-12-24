@@ -4,7 +4,9 @@ const authenticateToken = require("../controllers/authorization.js");
 
 const { sendMessage, allMessages } = require("../controllers/handleMessage.js");
 
-messageRouter.route("/").post(authenticateToken, sendMessage);
-messageRouter.route("/:chatID").get(authenticateToken, allMessages);
+messageRouter
+  .route("/:chatID")
+  .get(authenticateToken, allMessages)
+  .post(authenticateToken, sendMessage);
 
 module.exports = messageRouter;

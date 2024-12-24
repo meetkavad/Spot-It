@@ -1,6 +1,7 @@
 body::-webkit-scrollbar {
   display: none;
 }
+ 
 .user-page-container {
     padding: 20px;
   }
@@ -90,13 +91,13 @@ body::-webkit-scrollbar {
     font-weight: bold;
   }
 
-  .green{
+  .whiteColor{
     background-color: black;
     color : white;
     transition : 0.2s ease ;
   }
 
-  .red{
+  .blackColor{
     background-color: white;
     color: black;
     transition: 0.3s ease;

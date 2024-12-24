@@ -17,6 +17,7 @@ const ForgotPassword = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorMessage("");
     const { email } = formData;
     console.log(email);
 

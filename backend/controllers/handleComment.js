@@ -3,6 +3,10 @@ const userModel = require("../models/UserModel");
 
 const createComment = async (req, res) => {
   const { comment } = req.body;
+  if (!comment) {
+    return res.status(400).json({ msg: "comment is required" });
+  }
+
   const postID = req.params.postID;
 
   const post = await PostModel.findById(postID);

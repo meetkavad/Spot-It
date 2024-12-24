@@ -23,6 +23,9 @@ const PostUserLogin = async (req, res) => {
       const jwt_token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
         expiresIn: "24h",
       });
+
+      user.password = undefined;
+
       res.status(200).json({
         msg: "login successful",
         token: jwt_token,

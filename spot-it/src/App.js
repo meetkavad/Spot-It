@@ -1,7 +1,6 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Navigate, BrowserRouter, Routes, Route } from "react-router-dom";
 
-import LoadingPage from "./pages/LoadingPage.js";
-
+// Auth Pages :
 import LandingPage from "./pages/AuthPages/LandingPage.js";
 import Signup from "./pages/AuthPages/Signup.js";
 import Login from "./pages/AuthPages/Login.js";
@@ -23,17 +22,44 @@ import NotificationPage from "./pages/BellPages/NotificationPage.js";
 
 // Profile Pages :
 import ProfilePage from "./pages/ProfilePages/ProfilePage.js";
+
 import "./App.css";
+import { useAuthContext } from "./context/authContext.js";
 
 function App() {
+  const { authUser } = useAuthContext();
+
+  const RedirectToLogin = ({ children, redirectTo = "/Spot-It/v1/login" }) => {
+    return authUser ? children : <Navigate to={redirectTo} />;
+  };
+
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<LoadingPage />}></Route>
+          {/* any other path is sent to landing page: */}
+          <Route path="*" element={<Navigate to="/Spot-It/v1/login" />} />
           <Route path="/Spot-It/v1/landing" element={<LandingPage />}></Route>
-          <Route path="/Spot-It/v1/signup" element={<Signup />}></Route>
-          <Route path="/Spot-It/v1/login" element={<Login />}></Route>
+          <Route
+            path="/Spot-It/v1/signup"
+            element={
+              authUser ? (
+                <Navigate to="/Spot-It/v1/userin/userPage" />
+              ) : (
+                <Signup />
+              )
+            }
+          ></Route>
+          <Route
+            path="/Spot-It/v1/login"
+            element={
+              authUser ? (
+                <Navigate to="/Spot-It/v1/userin/userPage" />
+              ) : (
+                <Login />
+              )
+            }
+          ></Route>
           <Route
             path="/Spot-It/v1/emailVerification"
             element={<VerificationCode />}
@@ -48,28 +74,59 @@ function App() {
           ></Route>
           <Route
             path="/Spot-It/v1/userin/createPost"
-            element={<CreatePost />}
+            element={
+              <RedirectToLogin>
+                <CreatePost />
+              </RedirectToLogin>
+            }
           ></Route>
           <Route
             path="/Spot-It/v1/userin/userPage"
-            element={<UserPage />}
-          ></Route>
+            element={
+              <RedirectToLogin>
+                <UserPage />
+              </RedirectToLogin>
+            }
+          />
           <Route
             path="/Spot-It/v1/userin/notifications"
-            element={<NotificationPage />}
+            element={
+              <RedirectToLogin>
+                <NotificationPage />
+              </RedirectToLogin>
+            }
           ></Route>
           <Route
             path="/Spot-It/v1/userin/userProfile"
-            element={<ProfilePage />}
+            element={
+              <RedirectToLogin>
+                <ProfilePage />
+              </RedirectToLogin>
+            }
           ></Route>
-          <Route path="/Spot-It/v1/userin/chat" element={<ChatPage />}></Route>
+          <Route
+            path="/Spot-It/v1/userin/chat"
+            element={
+              <RedirectToLogin>
+                <ChatPage />
+              </RedirectToLogin>
+            }
+          ></Route>
           <Route
             path="/Spot-It/v1/userin/:postID/comments"
-            element={<CommentPage />}
+            element={
+              <RedirectToLogin>
+                <CommentPage />
+              </RedirectToLogin>
+            }
           ></Route>
           <Route
             path="/Spot-It/v1/userin/editPost"
-            element={<EditPost />}
+            element={
+              <RedirectToLogin>
+                <EditPost />
+              </RedirectToLogin>
+            }
           ></Route>
         </Routes>
       </BrowserRouter>

@@ -47,6 +47,8 @@ const CommentPage = () => {
       );
       if (response.status === 201) {
         setComment("");
+      } else if (response.status === 400) {
+        console.log("comment is required");
       }
     } catch (error) {
       console.error(error);

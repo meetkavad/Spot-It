@@ -1,18 +1,23 @@
 import { React, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../../context/authContext.js";
 import UserNavbar from "../../components/UserNavbar";
 import "./ProfilePage.css";
 
 const ProfilePage = () => {
+  const { setAuthUser } = useAuthContext();
+
   const navigate = useNavigate();
   const userDataString = localStorage.getItem("userData");
-  const userData = userDataString ? JSON.parse(userDataString) : null; // the object always stored as string in local storage, so need to parse it!
+  const userData = userDataString ? JSON.parse(userDataString) : null;
 
   const handleLogOut = (e) => {
     localStorage.removeItem("jwt_token");
     localStorage.removeItem("userData");
+    setAuthUser(null);
     navigate("/Spot-It/v1/landing");
   };
+
   return (
     <>
       <UserNavbar />

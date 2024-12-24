@@ -8,68 +8,76 @@ const SearchUser = async (req, res) => {
   let filter = {};
 
   if (user && user !== "") {
-    filter = { username: { $regex: user } };
+    filter = { username: { $regex: user } }; //matches any substring
   }
 
   const users = await userModel.find(filter).find({
     _id: { $ne: req.user.id },
   });
+
   res.status(200).json({ users: users });
 };
 
-// getting or creating a particular chat :
-const acessChat = async (req, res) => {
-  const { userID } = req.body;
-  if (!userID) {
-    console.log("user-id not sent with request!");
-    return res.status(400);
-  }
+const accessChat = async (req, res) => {
+  try {
+    const { userID } = req.params;
+    if (!userID) {
+      console.log("user-id not sent with request!");
+      return res.status(400).send("User ID is required.");
+    }
 
-  var isChat = await ChatModel.find({
-    isGroupChat: false,
-    $and: [
-      { users: { $elemMatch: { $eq: req.user._id } } },
-      { users: { $elemMatch: { $eq: userID } } },
-    ],
-  })
-    .populate("users", "-password", "-notifications")
-    .populate("latestMessage");
+    // Check for existing chat
+    let isChat = await ChatModel.find({
+      isGroupChat: false,
+      $and: [
+        { users: { $elemMatch: { $eq: req.user.id } } },
+        { users: { $elemMatch: { $eq: userID } } },
+      ],
+    })
+      .populate("users", "-password -notifications")
+      .populate("latestMessage");
 
-  isChat = await userModel.populate(isChat, {
-    path: "latestMessage.sender",
-    select: "username",
-  });
+    // Populate latest message sender details
+    isChat = await userModel.populate(isChat, {
+      path: "latestMessage.sender",
+      select: "username",
+    });
 
-  // sending chat if exists else creating it :
+    // If chat exists, return it
+    if (isChat.length > 0) {
+      return res.status(201).send({ conversation: isChat[0] });
+    }
 
-  if (isChat.length > 0) {
-    res.status(201).send(isChat[0]);
-  } else {
-    var chatData = {
-      users: [req.user._id, userID],
+    // Create new chat if not found
+    const chatData = {
+      users: [req.user.id, userID],
     };
 
     try {
       const createdChat = await ChatModel.create(chatData);
       const fullChat = await ChatModel.findOne({
         _id: createdChat._id,
-      }).populate("users", "-password", "-notifications");
+      }).populate("users", "-password -notifications");
 
-      res.status(200).send(fullChat);
+      return res.status(200).send({ newConversation: fullChat });
     } catch (error) {
-      console.error(error);
+      console.log(error.message);
+      res.status(500).send("Error creating chat.");
     }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Server Error.");
   }
 };
 
 // fetching all chats of a user :
 const fetchChats = async (req, res) => {
   try {
-    ChatModel.find({
-      users: { $elemMatch: { $eq: req.user._id } },
+    await ChatModel.find({
+      users: { $elemMatch: { $eq: req.user.id } },
     })
-      .populate("users", "-password", "-notifications")
-      .populate("groupAdmin", "-password", "-notifications")
+      .populate("users", "-password -notifications")
+      .populate("groupAdmin", "-password -notifications")
       .populate("latestMessage")
       .sort({ updatedAt: -1 })
       .then(async (results) => {
@@ -77,7 +85,8 @@ const fetchChats = async (req, res) => {
           path: "latestMessage.sender",
           select: "username email",
         });
-        res.status(200).send(results);
+
+        res.status(200).json({ results: results });
       });
   } catch (error) {
     console.error(error);
@@ -172,7 +181,7 @@ const removeFromGroup = async (req, res) => {
 
 module.exports = {
   SearchUser,
-  acessChat,
+  accessChat,
   fetchChats,
   createGroupChat,
   renameGroup,

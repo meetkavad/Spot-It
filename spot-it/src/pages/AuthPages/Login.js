@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import "./Login.css";
 import Navbar from "../../components/Navbar";
 import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../../context/authContext.js";
 
 const Login = () => {
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState("");
-
   const [showPassword, setShowPassword] = useState(false);
+  const { setAuthUser } = useAuthContext();
 
   const handleTogglePassword = () => {
     setShowPassword(!showPassword);
@@ -24,7 +25,7 @@ const Login = () => {
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
-
+    setErrorMessage("");
     var { username, password } = formData;
     username = username.toLowerCase();
     // on clicking login button :
@@ -46,6 +47,8 @@ const Login = () => {
         console.log("login successful");
         localStorage.setItem("jwt_token", data.token);
         localStorage.setItem("userData", JSON.stringify(data.userData));
+        // Auth Context:
+        setAuthUser(data.userData);
         navigate(`/Spot-It/v1/userin/userPage`);
       }
     } catch (error) {
@@ -97,9 +100,7 @@ const Login = () => {
               </button>
             </div>
 
-            <div
-              style={{ color: "red", fontSize: "13px", textAlign: "center" }}
-            >
+            <div className="red">
               <p>{errorMessage}</p>
             </div>
             <div className="login-form-group-button">

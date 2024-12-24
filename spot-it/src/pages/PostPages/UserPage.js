@@ -118,9 +118,8 @@ const UserPage = () => {
             onClick={() => {
               setUrlType("lost");
               setQuery("");
-              setLostButtonClass("green");
-              setFoundButtonClass("red");
-
+              setLostButtonClass("whiteColor");
+              setFoundButtonClass("blackColor");
               inputRef.current.value = "";
             }}
           >
@@ -131,8 +130,8 @@ const UserPage = () => {
             onClick={() => {
               setUrlType("found");
               setQuery("");
-              setFoundButtonClass("green");
-              setLostButtonClass("red");
+              setFoundButtonClass("whiteColor");
+              setLostButtonClass("blackColor");
               inputRef.current.value = "";
             }}
           >

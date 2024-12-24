@@ -4,7 +4,7 @@ const authenticateToken = require("../controllers/authorization.js");
 
 const {
   SearchUser,
-  acessChat,
+  accessChat,
   fetchChats,
   createGroupChat,
   renameGroup,
@@ -16,7 +16,7 @@ const {
 chatRouter.route("/").get(authenticateToken, SearchUser);
 
 // getting or creating a particular chat :
-chatRouter.route("/accessChat").post(authenticateToken, acessChat);
+chatRouter.route("/accessChat/:userID").get(authenticateToken, accessChat);
 
 // fetching all chats of a user :
 chatRouter.route("/fetchChats").get(authenticateToken, fetchChats);
