@@ -63,7 +63,7 @@ const ResetPassword = () => {
     } else {
       try {
         const response = await fetch(
-          "http://localhost:5000/Spot-It/v1/resetPassword",
+          `${process.env.REACT_APP_BACKEND_BASE_URL}/Spot-It/v1/resetPassword`,
           {
             method: "PATCH",
             headers: {

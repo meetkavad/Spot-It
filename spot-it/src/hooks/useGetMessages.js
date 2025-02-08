@@ -1,17 +1,19 @@
 import { useEffect, useState } from "react";
 import { useConversation } from "../zustand/useConversation";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const useGetMessages = () => {
   const [loading, setLoading] = useState(false);
   const { messages, setMessages, selectedConversation } = useConversation();
 
+  const navigate = useNavigate();
   useEffect(() => {
     const getMessages = async () => {
       setLoading(true);
       try {
         const response = await fetch(
-          `http://localhost:5000/Spot-It/v1/userin/chat/message/${selectedConversation._id}`,
+          `${process.env.REACT_APP_BACKEND_BASE_URL}/Spot-It/v1/userin/chat/message/${selectedConversation._id}`,
           {
             method: "GET",
             headers: {
@@ -22,8 +24,10 @@ const useGetMessages = () => {
         if (response.ok) {
           const data = await response.json();
           if (data.messages) {
-            console.log("Fetched Messages:", data.messages);
             setMessages(data.messages);
+          } else if (response.status === 403) {
+            navigate("/Spot-It/v1/login");
+            localStorage.setItem("userData", null);
           } else {
             toast.error("No messages received.");
           }

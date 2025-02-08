@@ -9,6 +9,7 @@ import { Conversation } from "./ConversationBar.js";
 import { MessageContainer } from "./Messages/MessageContainer.js";
 import { useConversation } from "../../zustand/useConversation";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const ChatPage = () => {
   const { onlineUsers } = useSocketContext();
@@ -19,6 +20,7 @@ const ChatPage = () => {
   const [searchValue, setSearchValue] = useState("");
   const { selectedConversation, setSelectedConversation } = useConversation();
 
+  const navigate = useNavigate();
   useEffect(() => {
     setConversations(initialConversations);
   }, [initialConversations]);
@@ -30,7 +32,7 @@ const ChatPage = () => {
     if (searchValue.trim() !== "") {
       try {
         const response = await fetch(
-          `http://localhost:5000/Spot-It/v1/userin/chat/?user=${searchValue}`,
+          `${process.env.REACT_APP_BACKEND_BASE_URL}/Spot-It/v1/userin/chat/?user=${searchValue}`,
           {
             method: "GET",
             headers: {
@@ -41,8 +43,9 @@ const ChatPage = () => {
         if (response.status === 200) {
           const data = await response.json();
           setSearchUserData(data.users);
-        } else {
-          alert("No user found");
+        } else if (response.status === 403) {
+          navigate("/Spot-It/v1/login");
+          localStorage.setItem("userData", null);
         }
       } catch (error) {
         toast.error(error.message);
@@ -56,7 +59,7 @@ const ChatPage = () => {
   const getConversation = async (userID) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/Spot-It/v1/userin/chat/accessChat/${userID}`,
+        `${process.env.REACT_APP_BACKEND_BASE_URL}/Spot-It/v1/userin/chat/accessChat/${userID}`,
         {
           method: "GET",
           headers: {
@@ -121,7 +124,7 @@ const ChatPage = () => {
           </div>
         </div>
 
-        <div className="chat-box">
+        <div className={`chat-box ${selectedConversation ? "active" : ""}`}>
           <MessageContainer />
         </div>
       </div>

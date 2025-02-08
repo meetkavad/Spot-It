@@ -1,10 +1,8 @@
 #register-container {
   display: flex;
-  justify-content: center;
-  align-items: center;
   background-color: white;
-  flex-direction: column; /* Add this to allow vertical stacking */
-  min-height: 100vh; /* Ensure it takes full height */
+  flex-direction: column; 
+  min-height: 100vh; 
 }
 
 #home-section {
@@ -13,7 +11,7 @@
   align-items: center;
   width: 100%;
   margin: 0 auto;
-  flex-grow: 1; /* Allow it to grow */
+  flex-grow: 1;
 }
 
 .spot-it-text {
@@ -67,8 +65,8 @@
 }
 
 .spot-it-image img {
-  width: 76vh;
-  height: 76vh;
+  width: 100%;
+  height: auto;
   border-radius: 10px;
 }
 
@@ -76,15 +74,18 @@
   background-color: #000;
   color: #fff;
   padding: 20px 0;
-  text-align: center;
 }
 
 .footer-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 1200px;
-  margin: 0 auto;
+  margin: 0 5%;
+}
+
+.social-media-links{
+  display: flex;
+  flex-direction: row;
 }
 
 .social-media-links a {
@@ -95,4 +96,81 @@
 
 .contact-info p {
   margin: 0;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+  #home-section {
+    flex-direction: column-reverse; /* Text below the image */
+  }
+
+  .spot-it-text {
+    padding: 0 20px;
+    margin-bottom: 50px;
+    padding-left: 20px;
+  }
+
+  .spot-it-heading {
+    font-size: 2.5rem;
+    margin-left: 0;
+    text-align: center;
+  }
+
+  .spot-it-subheading {
+    font-size: 1.2rem;
+    text-align: center;
+  }
+
+  .spot-it-description {
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  .spot-it-button {
+    display: block;
+    margin: 0 auto;
+  }
+
+  .spot-it-image {
+    margin-left: 0;
+    padding: 20px;
+    flex: 1 1 100%;
+  }
+
+  .footer-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .social-media-links{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+
+  }
+}
+
+@media (max-width: 480px) {
+  .spot-it-heading {
+    font-size: 2rem;
+  }
+
+  .spot-it-subheading {
+    font-size: 1rem;
+  }
+
+  .spot-it-description {
+    font-size: 0.9rem;
+  }
+
+  .spot-it-button {
+    font-size: 0.9rem;
+    padding: 8px 16px;
+  }
+
+  .spot-it-image {
+    padding: 10px;
+  }
+
+
 }

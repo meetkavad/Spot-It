@@ -24,7 +24,7 @@ const ForgotPassword = () => {
     // posting email-code :
     try {
       const response = await fetch(
-        "http://localhost:5000/Spot-It/v1/forgotPassword",
+        `${process.env.REACT_APP_BACKEND_BASE_URL}/Spot-It/v1/forgotPassword`,
         {
           method: "POST",
           headers: {

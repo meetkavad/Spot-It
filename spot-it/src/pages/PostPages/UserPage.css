@@ -1,207 +1,275 @@
-body::-webkit-scrollbar {
+
+body::-webkit-scrollbar{
   display: none;
 }
- 
+
 .user-page-container {
-    padding: 20px;
+  padding: 20px;
+}
+
+.create-post-button-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.create-post-button {
+  font-size: 2.1rem;
+  position: fixed;
+  top: 86%;
+  left: 90%;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  border-radius: 100%;
+  padding: 10px 20px;
+  cursor: pointer;
+  border: 3px solid black;
+  box-shadow: 2px black;
+}
+
+.search-bar {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 35px;
+}
+
+.search-bar  input::placeholder{
+  font-style: italic;
+}
+
+.search-item-input {
+  border-radius: 5px;
+  border: 2px solid black;
+}
+
+.search-item-button {
+  margin-left: 10px;
+  border-radius: 5px;
+  background-color: white;
+  color: black;
+  font-weight: bold;
+  padding: 0px 15px;
+  cursor: pointer;
+}
+
+.search-item-button:hover {
+  border: 2px solid black;
+  transition: 0.2s ease;
+  background-color: black;
+  color: white;
+}
+
+.lost-found-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-top: -20px;
+  margin-bottom: 10px;
+}
+
+.lost-post-button,
+.found-post-button {
+  font-size: 2.1rem;
+  margin: 20px 20px;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  border-radius: 100%;
+  padding: 10px 20px;
+  cursor: pointer;
+  border: 3px solid black;
+  box-shadow: 2px black;
+  font-weight: bold;
+}
+
+.whiteColor {
+  background-color: black;
+  color: white;
+  transition: 0.2s ease;
+}
+
+.blackColor {
+  background-color: white;
+  color: black;
+  transition: 0.2s ease;
+}
+
+.posts-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+  margin: 0 auto;
+  max-width: 1280px;
+}
+
+.post-container {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  max-height: 150vh;
+  width: 300px;
+  overflow: hidden;
+}
+
+.post-username {
+  clear: both;
+  color: black;
+  text-align: left;
+  margin: -20px;
+}
+
+.post-type {
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: white;
+  position: relative;
+  left: 250px;
+  bottom: 250px;
+  background-color: black;
+  border-radius: 6%;
+  margin: 0px;
+  padding: 10px;
+  text-align: left;
+  transition: 0.5s ease-in-out;
+}
+
+.post-image {
+  width: 100%;
+  max-width: 40vh;
+  height: 35vh;
+  border-radius: 8px;
+  margin-top: 15px;
+  object-fit: contain;
+}
+
+
+.item-name,
+.location,
+.description {
+  display: flex;
+  flex-direction: row;
+}
+
+.post-values {
+  margin-left: 10px;
+  margin-bottom: -10px;
+}
+
+.item_name_heading, 
+.location-heading,
+.description-heading{
+  margin-top: 20px;
+  margin-bottom: -10px;
+}
+
+.post-item_name:hover{
+  cursor: pointer;
+  font-style: italic;
+  text-transform: uppercase;
+
+}
+.post-location:hover{
+  cursor: pointer;
+  font-style: italic;
+  text-transform: uppercase;
+}
+
+.post-description {
+  height: 10vh;
+  margin-bottom: 5px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+.post-description::-webkit-scrollbar {
+  width: 6px; 
+}
+
+.post-description::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+
+.post-description::-webkit-scrollbar-thumb {
+  background: #888; /* Color of the scrollbar thumb */
+  border-radius: 10px; /* Rounded corners for the scrollbar thumb */
+}
+
+.post-description::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Color of the scrollbar thumb on hover */
+}
+
+
+.footer-buttons {
+  display: flex;
+  flex-direction: row;
+  margin-top: 10px;
+  margin-left: -5px;
+  align-items: center;
+}
+
+.post-comment-button,
+.post-edit-button,
+.post-delete-button {
+  background-color: white;
+  border: none;
+  cursor: pointer;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 1024px) {
+
+  .posts-container{
+    justify-content: center;
   }
-  
-  .create-post-button-container {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
+
   .create-post-button {
-    font-size: 2.1rem;
-    
-    position : fixed;
-    top : 86vh;
-    left : 90vw;
-    background-color: #000;
-    color: #fff;
-    border: none;
-    border-radius: 100%;
-    padding: 10px 20px;
-    cursor: pointer;
-    border : 3px solid black;
-    box-shadow:  2px black ;
-  }
-
-  .search-bar{
-    display: flex;
-    flex-direction: row;
-    
-    margin-bottom : 35px ;
-  }
-
-  .search-item-input{
-    border-radius: 5px;
-    border : 2px solid black;
-  }
-
-  .search-item-button{
-    margin-left : 10px ;
-    border-radius : 5px ;
-    background-color: white;
-    color : black;
-    font-weight: bold;
-    padding : 0px 15px ;
-    cursor: pointer;
-  }
-
-  .search-item-button:hover{
-    border : 2px solid black;
-    transition : 0.2s ease;
-    background-color: black;
-    color : white;
-  }
-
-  .lost-found-buttons{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    margin-top: -20px;
-    margin-bottom : 10px ;
-  }
-  .lost-post-button{
-    font-size: 2.1rem;
-    margin : 20px 20px;
-    background-color: #000;
-    color: #fff;
-    border: none;
-    border-radius: 100%;
-    padding: 10px 20px;
-    cursor: pointer;
-    border : 3px solid black;
-    box-shadow:  2px black ;
-    font-weight: bold;
-  }
-
-  .found-post-button{
-    font-size: 2.1rem;    
-    margin : 20px 20px ;
-    background-color: #000;
-    color: #fff;
-    border: none;
-    border-radius: 100%;
-    padding: 10px 20px;
-    cursor: pointer;
-    border : 3px solid black;
-    box-shadow:  2px black ;
-    font-weight: bold;
-  }
-
-  .whiteColor{
-    background-color: black;
-    color : white;
-    transition : 0.2s ease ;
-  }
-
-  .blackColor{
-    background-color: white;
-    color: black;
-    transition: 0.3s ease;
-  }
-
-  .posts-container {
-    display: grid;
-    grid-template-columns: 23.5% 23.5% 23.5% 23.5%;
-    gap: 25px;
-  }
-  
-  .post-container {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-    height: 72vh ;
-    overflow: hidden;
-  }
-
-  .post-username{
-    clear: both;
-    color : black;
-    text-align: left;
-    margin: -20px ;
+    top: 86%;
+    left: 90%;
   }
 
   .post-type {
-    font-weight: bold;
-    font-size: 1.2rem;
-    color :white;
-    position: relative;
-    left : 220px;
-    bottom : 40px ;
-    background-color: black;
-    border-radius: 6%;
-    margin: 0px;
-    padding : 10px ;
-    text-align: left;
-    transition : 0.5s ease-in-out ;
+    left: 200px;
+    bottom: 200px;
+  }
+}
+
+@media (max-width: 768px) {
+
+  .create-post-button {
+    top: 86%;
+    left: 85%;
+  }
+
+  .post-type {
+    left: 150px;
+    bottom: 150px;
+    font-size: 1rem;
+    padding: 8px;
   }
 
   .post-image {
-    width: 40vh;
-    height: 35vh;
-    border-radius: 8px;
-    margin-top : 15px;
+    max-width: 60vw;
+    height: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .create-post-button {
+    top: 86%;
+    left: 75%;
   }
 
-  .item-name{
-    display: flex;
-    flex-direction: row;
-  }
-  .location{
-    display: flex;
-    flex-direction: row;
-  }
-  .description {
-    display: flex;
-    flex-direction: row;
+  .post-type {
+    left: 100px;
+    bottom: 100px;
+    font-size: 0.9rem;
+    padding: 6px;
   }
 
-  .post-heading{
-    
-    font-weight: bold;
-    margin-bottom : -10px ;
+  .post-image {
+    max-width: 80vw;
+    height: auto;
   }
-
-  .post-values{
-    margin-left : 10px ;
-    margin-bottom : -10px ;
-
-  }
-  
-  .description-heading {
-     flex : 8 ;
-  }
-
-  .post-description {
-    flex : 11;
-     height : 45px;
-     margin-bottom : 5px ;
-     overflow: scroll;
-     
-  }
-    .footer-buttons{
-      display: flex;
-      flex-direction: row;
-    }
-  .post-comment-button{
-    background-color: white;
-    border: none;
-    cursor: pointer;
-  }
-  .post-edit-button{
-    background-color: white;
-    border: none;
-     cursor : pointer;
-  }
-  .post-delete-button{
-    background-color: white;
-    border: none;
-    cursor : pointer;
-  }
-
-  
-
+}

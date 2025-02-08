@@ -35,7 +35,7 @@ const CommentPage = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/Spot-It/v1/userin/${postID}/createComment`,
+        `${process.env.REACT_APP_BACKEND_BASE_URL}/Spot-It/v1/userin/${postID}/createComment`,
         {
           method: "POST",
           headers: {
@@ -49,6 +49,8 @@ const CommentPage = () => {
         setComment("");
       } else if (response.status === 400) {
         console.log("comment is required");
+      } else if (response.status === 403) {
+        localStorage.setItem("userData", null);
       }
     } catch (error) {
       console.error(error);
@@ -60,7 +62,7 @@ const CommentPage = () => {
     const fetchComment = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/Spot-It/v1/userin/${postID}/comments`,
+          `${process.env.REACT_APP_BACKEND_BASE_URL}/Spot-It/v1/userin/${postID}/comments`,
           {
             method: "GET",
             headers: {
@@ -85,7 +87,7 @@ const CommentPage = () => {
   const handleCommentDelete = async (commentID) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/Spot-It/v1/userin/${postID}/${commentID}/deleteComment`,
+        `${process.env.REACT_APP_BACKEND_BASE_URL}/Spot-It/v1/userin/${postID}/${commentID}/deleteComment`,
         {
           method: "DELETE",
           headers: {

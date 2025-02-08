@@ -6,13 +6,16 @@ import UserNavbar from "../../components/UserNavbar";
 // font-awesome icons :
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { FaLocationDot } from "react-icons/fa6";
+import { FaArrowsTurnRight } from "react-icons/fa6";
+import { FaSearch } from "react-icons/fa";
 
 const UserPage = () => {
   const navigate = useNavigate();
   const userDataString = localStorage.getItem("userData");
   const userData = userDataString ? JSON.parse(userDataString) : null;
-  const [lostButtonClass, setLostButtonClass] = useState("green");
-  const [foundButtonClass, setFoundButtonClass] = useState("red");
+  const [lostButtonClass, setLostButtonClass] = useState("whiteColor");
+  const [foundButtonClass, setFoundButtonClass] = useState("blackColor");
 
   // search-bar value :
   const inputRef = useRef(null);
@@ -30,11 +33,42 @@ const UserPage = () => {
     navigate("/Spot-It/v1/userin/createPost");
   };
 
+  //fetch the posts:
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.REACT_APP_BACKEND_BASE_URL}/Spot-It/v1/userin/userPage/` +
+            urlType +
+            query,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `${localStorage.getItem("jwt_token")}`,
+            },
+          }
+        );
+
+        if (response.status === 200) {
+          const data = await response.json();
+          setData(data.posts);
+        } else if (response.status === 403) {
+          navigate("/Spot-It/v1/userin/login");
+          localStorage.setItem("userData", null);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, [urlType, query, data]);
+
   // handle post delete :
   const handlePostDelete = async (postID) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/Spot-It/v1/userin/${postID}/deletePost`,
+        `${process.env.REACT_APP_BACKEND_BASE_URL}/Spot-It/v1/userin/${postID}/deletePost`,
         {
           method: "DELETE",
           headers: {
@@ -68,31 +102,6 @@ const UserPage = () => {
     const newQuery = `?item=${inputValue}`;
     setQuery(newQuery);
   };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          "http://localhost:5000/Spot-It/v1/userin/userPage/" + urlType + query,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `${localStorage.getItem("jwt_token")}`,
-            },
-          }
-        );
-
-        if (response.status === 200) {
-          const data = await response.json();
-          setData(data.posts);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchData();
-  }, [urlType, query, data]);
 
   const bufferToBase64 = (buffer) => {
     const bytes = new Uint8Array(buffer);
@@ -167,13 +176,17 @@ const UserPage = () => {
               />
               <div className="on-image-right">
                 <div className="item-name">
-                  <p className="post-heading item_name_heading">Item : </p>
+                  <p className="post-heading item_name_heading">
+                    <FaSearch style={{ height: "2.5vh" }} />
+                  </p>
                   <p className="post-values post-item_name">
                     {post.additionalInfo.item_name}
                   </p>
                 </div>
                 <div className="location">
-                  <p className="post-heading location-heading">Location : </p>
+                  <p className="post-heading location-heading">
+                    <FaLocationDot style={{ height: "3vh" }} />
+                  </p>
                   <p className="post-values post-location">
                     {post.additionalInfo.location}
                   </p>
@@ -181,7 +194,7 @@ const UserPage = () => {
               </div>
               <div className="description">
                 <p className="post-heading description-heading">
-                  Description :{" "}
+                  <FaArrowsTurnRight style={{ height: "2.5vh" }} />
                 </p>
                 <p className="post-values post-description">
                   {post.additionalInfo.description}

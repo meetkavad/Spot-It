@@ -30,13 +30,16 @@ const Login = () => {
     username = username.toLowerCase();
     // on clicking login button :
     try {
-      const response = await fetch("http://localhost:5000/Spot-It/v1/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, password }),
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_BASE_URL}/Spot-It/v1/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ username, password }),
+        }
+      );
 
       const data = await response.json();
       if (response.status === 404) {
@@ -104,11 +107,11 @@ const Login = () => {
               <p>{errorMessage}</p>
             </div>
             <div className="login-form-group-button">
-              <button className="fp-button" onClick={handleFPSubmit}>
-                Forgot Password
-              </button>
               <button className="login-button" onClick={handleLoginSubmit}>
                 Login
+              </button>
+              <button className="fp-button" onClick={handleFPSubmit}>
+                Forgot Password
               </button>
             </div>
           </form>

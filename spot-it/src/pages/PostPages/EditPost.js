@@ -28,7 +28,7 @@ const EditPost = () => {
   const fetchPostData = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/Spot-It/v1/userin/${postID}/getPost`,
+        `${process.env.REACT_APP_BACKEND_BASE_URL}/Spot-It/v1/userin/${postID}/getPost`,
         {
           method: "GET",
           headers: {
@@ -41,6 +41,9 @@ const EditPost = () => {
         const data = await response.json();
         console.log(data.post);
         setFormData(data.post);
+      } else if (response.status === 403) {
+        navigate("/Spot-It/v1/login");
+        localStorage.setItem("userData", null);
       } else {
         setErrorMessage("Error fetching post data. Please try again.");
         console.log("error");
@@ -57,7 +60,7 @@ const EditPost = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/Spot-It/v1/userin/${postID}/editPost`,
+        `${process.env.REACT_APP_BACKEND_BASE_URL}/Spot-It/v1/userin/${postID}/editPost`,
         {
           method: "PATCH",
           headers: {
@@ -75,6 +78,9 @@ const EditPost = () => {
 
       if (response.status === 200) {
         navigate("/Spot-It/v1/userin/userPage");
+      } else if (response.status === 403) {
+        navigate("/Spot-It/v1/login");
+        localStorage.setItem("userData", null);
       } else {
         setErrorMessage("Error editing post. Please try again.");
       }
@@ -100,7 +106,7 @@ const EditPost = () => {
           />
         </div>
         <div className="create-post-container">
-          <h1>Create a Post</h1>
+          <h1 className="create-post-text">Edit Post</h1>
           <form className="create-post-form" onSubmit={handleSubmit}>
             <div className="form-group">
               <label className="form-label">Type : </label>
@@ -140,6 +146,7 @@ const EditPost = () => {
                 name="description"
                 value={formData.description}
                 onChange={handleChange}
+                className="post-description"
               />
             </div>
             <div style={{ color: "red", fontSize: "13px" }}>

@@ -8,7 +8,6 @@ export const Messages = () => {
 
   // to listen to any incoming messages:
   useListenMessages();
-  console.log(messages);
   // to set the scroll to be at the last message:
   const lastMessageRef = useRef();
 
@@ -20,10 +19,12 @@ export const Messages = () => {
     }, 300);
   }, [messages]);
 
+  console.log(messages);
+
   return (
     <div className="messages-in-chat">
       {messages.length > 0 &&
-        messages.map((message, index) => (
+        messages?.map((message, index) => (
           <div
             key={message?._id || index}
             ref={index === messages.length - 1 ? lastMessageRef : null}

@@ -26,7 +26,7 @@ const VerificationCode = () => {
     // posting email-code :
     try {
       const response = await fetch(
-        "http://localhost:5000/Spot-It/v1/emailVerification",
+        `${process.env.REACT_APP_BACKEND_BASE_URL}/Spot-It/v1/emailVerification`,
         {
           method: "POST",
           headers: {
@@ -72,7 +72,9 @@ const VerificationCode = () => {
           />
         </div>
         <div className="verification-code-container">
-          <h2>A code has been Sent to your email address!</h2>
+          <h2 className="verification-code-text">
+            A code has been Sent to your email address!
+          </h2>
           <h3>Enter the received code below</h3>
           <form className="verification-code-form" onSubmit={handleSubmit}>
             <div className="form-group">

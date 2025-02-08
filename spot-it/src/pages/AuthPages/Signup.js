@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import "./Signup.css";
 import Navbar from "../../components/Navbar";
 import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../../context/authContext.js";
 
 const Signup = () => {
   const navigate = useNavigate();
+  const { setAuthUser } = useAuthContext();
 
   const [formData, setFormData] = useState({
     username: "",
@@ -34,7 +36,7 @@ const Signup = () => {
         try {
           const username = e.target.value.toLowerCase();
           const response = await fetch(
-            "http://localhost:5000/Spot-It/v1/usernameCheck",
+            `${process.env.REACT_APP_BACKEND_BASE_URL}/Spot-It/v1/usernameCheck`,
             {
               method: "POST",
               headers: {
@@ -97,7 +99,7 @@ const Signup = () => {
       //posting client information :
       try {
         const response = await fetch(
-          "http://localhost:5000/Spot-It/v1/Signup",
+          `${process.env.REACT_APP_BACKEND_BASE_URL}/Spot-It/v1/Signup`,
           {
             method: "POST",
             headers: {
@@ -118,6 +120,7 @@ const Signup = () => {
           localStorage.setItem("OnEmailVerification", "homepage");
           localStorage.setItem("userData", JSON.stringify(data.userData));
 
+          setAuthUser(data.userData);
           navigate(`/Spot-It/v1/emailVerification`);
         } else if (response.status === 409) {
           setErrorMessage(data.msg);

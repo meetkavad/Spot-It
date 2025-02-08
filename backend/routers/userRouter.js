@@ -41,7 +41,7 @@ userRouter
   .patch(authenticateToken, editComment);
 
 // accessing user profile :
-const { getProfile } = require("../controllers/profileController.js");
+const { getProfile } = require("../controllers/handleProfile.js");
 userRouter.route("/userProfile").get(authenticateToken, getProfile);
 
 // notifications handling :

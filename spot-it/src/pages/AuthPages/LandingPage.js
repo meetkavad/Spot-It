@@ -31,7 +31,7 @@ const LandingPage = () => {
             </button>
           </div>
           <div className="spot-it-image">
-            <img src="/assets/found.jpg" alt="Lost and found" />
+            <img src="/assets/found.jpg" alt="Lost and found image" />
           </div>
         </div>
       </div>

@@ -32,7 +32,7 @@ export const MessageContainer = () => {
             </h2>
           </div>
 
-          <Messages />
+          <Messages className="message-container-body" />
           <MessageInput />
         </>
       )}

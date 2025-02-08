@@ -7,7 +7,7 @@ const {
   PostUserSignup,
   checkUsername,
   PostEmailVerification,
-} = require("../controllers/signupController.js");
+} = require("../controllers/handleSignup.js");
 
 authRouter.route("/usernameCheck").post(checkUsername);
 authRouter.route("/Signup").post(PostUserSignup);
@@ -20,7 +20,7 @@ const {
   PostUserLogin,
   PostForgotPassword,
   PostResetPassword,
-} = require("../controllers/loginController.js");
+} = require("../controllers/handleLogin.js");
 
 authRouter.route("/login").post(PostUserLogin);
 authRouter.route("/forgotPassword").post(PostForgotPassword);

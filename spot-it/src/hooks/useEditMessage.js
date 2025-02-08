@@ -1,20 +1,17 @@
-import { useState } from "react";
 import { useConversation } from "../zustand/useConversation";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+const { useNavigate } = require("react-router-dom");
 
-export const useSendMessage = () => {
-  const [loading, setLoading] = useState(false);
+export const useEditMessage = () => {
   const { messages, setMessages, selectedConversation } = useConversation();
 
   const navigate = useNavigate();
-  const sendMessage = async (message) => {
-    setLoading(true);
+  const updateMessage = async (message, messageId) => {
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_BASE_URL}/Spot-It/v1/userin/chat/message/${selectedConversation._id}`,
+        `${process.env.REACT_APP_BACKEND_BASE_URL}/Spot-It/v1/userin/chat/message/${selectedConversation._id}/${messageId}`,
         {
-          method: "POST",
+          method: "PATCH",
           headers: {
             Authorization: `${localStorage.getItem("jwt_token")}`,
             "Content-Type": "application/json",
@@ -24,18 +21,18 @@ export const useSendMessage = () => {
       );
       const data = await response.json();
       if (response.ok) {
-        console.log("message send successfully!");
-        setMessages([...messages, data.message]);
+        toast.success("message edited successfully!");
+        const index = messages.findIndex((msg) => msg._id === messageId);
+        messages[index] = data.message;
+        setMessages(messages);
       } else if (response.status === 403) {
         navigate("/Spot-It/v1/login");
         localStorage.setItem("userData", null);
       }
     } catch (error) {
       toast.error(error.message);
-    } finally {
-      setLoading(false);
     }
   };
 
-  return { sendMessage, loading };
+  return { updateMessage };
 };

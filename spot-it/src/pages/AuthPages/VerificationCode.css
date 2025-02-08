@@ -20,7 +20,9 @@ input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-
+.verification-code-text{
+  margin-top:60px;
+}
   h2, h3 {
     padding : 20px;
     text-align: center;

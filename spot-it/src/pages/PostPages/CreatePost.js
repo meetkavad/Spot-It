@@ -37,7 +37,7 @@ const CreatePost = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/Spot-It/v1/userin/createPost",
+        `${process.env.REACT_APP_BACKEND_BASE_URL}/Spot-It/v1/userin/createPost`,
         {
           method: "POST",
           headers: {
@@ -49,6 +49,8 @@ const CreatePost = () => {
 
       if (response.status === 200) {
         navigate("/Spot-It/v1/userin/userPage");
+      } else if (response.status === 403) {
+        localStorage.setItem("userData", null);
       } else {
         setErrorMessage("Error creating post. Please try again.");
       }

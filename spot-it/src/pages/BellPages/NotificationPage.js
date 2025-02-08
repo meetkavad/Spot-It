@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from "react";
 import UserNavbar from "../../components/UserNavbar";
 import "./NotificationPage.css";
+import { useNavigate } from "react-router-dom";
 
 const toDate = (time_stamp) => {
   const date = new Date(time_stamp);
   return date.toLocaleString();
 };
 const NotificationPage = () => {
+  const navigate = useNavigate();
   const [data, setData] = useState([]);
 
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
         const response = await fetch(
-          "http://localhost:5000/Spot-It/v1/userin/notifications",
+          `${process.env.REACT_APP_BACKEND_BASE_URL}/Spot-It/v1/userin/notifications`,
           {
             method: "GET",
             headers: {
@@ -26,6 +28,9 @@ const NotificationPage = () => {
           const data = await response.json();
           setData(data.notifications);
           console.log(data.notifications);
+        } else if (response.status === 403) {
+          navigate("/Spot-It/v1/login");
+          localStorage.setItem("userData", null);
         }
       } catch (error) {
         console.error(error);

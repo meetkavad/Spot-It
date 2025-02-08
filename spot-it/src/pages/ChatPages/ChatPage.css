@@ -1,105 +1,169 @@
-*{
-    box-sizing: border-box;
+* {
+  box-sizing: border-box;
 }
 
-.cat-chat-image{
-    margin-top : 80px;
-    height : 50vh;
-    width : 50vh;
-}
-
-.cat-image-container{
-    display: flex;
-    justify-content: center;
-}
-
-h2{
-    padding :0px ;
-    margin : 0px auto ;
-}
-
-.search-user-container{
-    margin : 1vw;
-    width : 38vw;
-    scroll-behavior: smooth;
-}
-
-.container{
-    display: flex;
-    flex-direction: row;
-
-}
-
-.all-chat-container{
-    display: flex;
-    flex-direction: column;
-    height: 85vh;
-    overflow-x : hidden ;
-    width: 100vw;
-    margin: 1vh;
-    margin-right: 0;
-    border : 2px solid black ;
-    flex: 2;
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
 
-.chat-box{
-    height: 85vh;
-    border : 2px solid black;
-    flex: 6;
-    margin: 1vh;
-    margin-left: 0;
-    overflow: scroll;
+.cat-image-container {
+  display: flex;
+  justify-content: center;
+}
+
+h2 {
+  padding: 0px;
+  margin: 0px auto;
+}
+
+.search-user-container {
+  margin: 1vw;
+  width: 38vw;
+  scroll-behavior: smooth;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap; /* Allow wrapping for smaller screens */
+  gap: 10px;
+  /* padding: 10px; */
+}
+
+.all-chat-container {
+  display: flex;
+  flex-direction: column;
+  height: 85vh;
+  overflow-x: hidden;
+  width: 100%;
+  margin: 1vh;
+  margin-right: 0;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  background-color: #fff;
+  flex: 2;
+  padding: 10px;
+}
+
+
+.user-conversations{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
+  height: 100%;
+}
+
+.user-conversations::-webkit-scrollbar{
+  display: none;
+}
+
+.chat-box {
+  height: 85vh;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  background-color: #fff;
+  flex: 6;
+  margin: 1vh;
+  margin-left: 0;
+  padding: 10px;
 }
 
 /* conversation Component class: */
 
-.conversationComponentClass{
-    cursor: pointer
+.conversationComponentClass {
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
 }
 
-.conversationComponentClass:hover{
-    background-color: #4f4f4f;
+.conversationComponentClass:hover {
+  background-color: #e0e0e0;
 }
 
-.selectedClass{
-    color: white;
-    background-color: black;
-}
-.selectedClass:hover{
-    color: white;
-    background-color: black;
+.selectedClass {
+  color: white;
+  background-color: #007bff;
 }
 
-.conversation-item{
-    padding: 0px 20px;
-    border-bottom: 2px solid red;
-    border-radius: 5px;
+.selectedClass:hover {
+  color: white;
+  background-color: #0056b3;
 }
 
-.user-chat-heading{
-    display: flex;
-    align-items: center;
-    gap: 10px;
+.conversation-item {
+  padding: 10px 20px;
+  border-bottom: 1px solid #ccc;
+  border-radius: 5px;
 }
 
-.online-dot{
-    position: relative;
-    top: 12px;
-    right: 15px;
-    display: inline-block;
-    height: 10px;
-    width: 10px;
-    border: 1px solid green;
-    border-radius: 50%;
-    background-color: green;
+.user-chat-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.user-chat-image{
-    height: 40px;
-    width: 40px;
+.online-dot {
+  position: relative;
+  top: 12px;
+  right: 15px;
+  display: inline-block;
+  height: 10px;
+  width: 10px;
+  border: 1px solid green;
+  border-radius: 50%;
+  background-color: green;
 }
 
-.bold{
-    font-weight: bold;
+.user-chat-image {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+  .all-chat-container {
+    height: auto;
+    flex: 1 1 100%;
+  }
+
+  .chat-box {
+    display: none; /* Hide chat box by default on smaller screens */
+    height: auto;
+    flex: 1 1 100%;
+  }
+
+  .chat-box.active {
+    display: block; /* Show chat box when a conversation is selected */
+  }
+}
+
+@media (max-width: 480px) {
+  .all-chat-container {
+    height: auto;
+    flex: 1 1 100%;
+  }
+
+  .chat-box {
+    display: none; /* Hide chat box by default on smaller screens */
+    height: auto;
+    flex: 1 1 100%;
+  }
+
+  .chat-box.active {
+    display: block; /* Show chat box when a conversation is selected */
+  }
+
+  .search-user-container {
+    width: 90vw;
+  }
 }

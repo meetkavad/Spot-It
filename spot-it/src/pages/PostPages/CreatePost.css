@@ -9,12 +9,12 @@
     margin-top : 20px ;
     color : white;
   }
+
   .create-post-form {
     color : white;
     margin-top : 5px ;
     padding: 30px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-
   }
 
   .form-group label {
@@ -45,7 +45,6 @@
     margin-bottom: 10px;
     display: flex;
     flex-direction: row;
-    margin : 0px 100px  ;
   }
   
   .post-button {
@@ -55,6 +54,8 @@
     border-radius: 4px;
     cursor: pointer;
     font-weight: bold;
+    margin-left : 20%;
+
   }
   
   .post-button:hover {
@@ -65,7 +66,7 @@
 
   .cancel-button{
     padding : 10px ;
-    margin-left : 100px;
+    margin-left : 15%;
     background-color: #fff;
     color: #000;
     border-radius: 4px;

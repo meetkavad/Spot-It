@@ -5,13 +5,18 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { AuthContextProvider } from "./context/authContext.js";
 import { SocketContextProvider } from "./context/socketContext.js";
+import { MessageContextProvider } from "./context/messageContext.js";
+import { Toaster } from "react-hot-toast";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <AuthContextProvider>
       <SocketContextProvider>
-        <App />
+        <MessageContextProvider>
+          <Toaster />
+          <App />
+        </MessageContextProvider>
       </SocketContextProvider>
     </AuthContextProvider>
   </React.StrictMode>
