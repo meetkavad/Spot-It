@@ -3,12 +3,16 @@ import "./Login.css";
 import Navbar from "../../components/Navbar";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../context/authContext.js";
+import { useLoading } from "../../hooks/useLoading.js";
+import Loader from "../../components/Loader.js";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const { setAuthUser } = useAuthContext();
+  const { loading, showLoader, hideLoader } = useLoading();
 
   const handleTogglePassword = () => {
     setShowPassword(!showPassword);
@@ -26,6 +30,7 @@ const Login = () => {
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage("");
+    showLoader();
     var { username, password } = formData;
     username = username.toLowerCase();
     // on clicking login button :
@@ -47,15 +52,17 @@ const Login = () => {
       } else if (response.status === 401) {
         setErrorMessage(data.msg);
       } else if (response.status === 200) {
-        console.log("login successful");
         localStorage.setItem("jwt_token", data.token);
         localStorage.setItem("userData", JSON.stringify(data.userData));
-        // Auth Context:
         setAuthUser(data.userData);
+        toast.success("login successful");
         navigate(`/Spot-It/v1/userin/userPage`);
       }
     } catch (error) {
       console.error(error);
+      toast.error("Error logging in!");
+    } finally {
+      hideLoader();
     }
   };
 
@@ -68,6 +75,7 @@ const Login = () => {
     <>
       {" "}
       <Navbar />
+      {loading && <Loader />}
       <div className="container">
         <div className="image-container">
           <img src="/assets/cat_form.jpeg" alt="image" className="cat-image" />

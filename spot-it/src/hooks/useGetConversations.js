@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { useLoading } from "./useLoading";
 
 export const useGetConversations = () => {
-  const [loading, setLoading] = useState(false);
+  const { loading, showLoader, hideLoader } = useLoading();
   const [conversations, setConversations] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     const getConversations = async () => {
-      setLoading(true);
+      showLoader();
       try {
         const response = await fetch(
           `${process.env.REACT_APP_BACKEND_BASE_URL}/Spot-It/v1/userin/chat/fetchChats`,
@@ -29,7 +30,7 @@ export const useGetConversations = () => {
       } catch (error) {
         toast.error(error.message);
       } finally {
-        setLoading(false);
+        hideLoader();
       }
     };
 

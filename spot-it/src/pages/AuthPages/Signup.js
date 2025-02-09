@@ -3,10 +3,15 @@ import "./Signup.css";
 import Navbar from "../../components/Navbar";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../context/authContext.js";
+import { useLoading } from "../../hooks/useLoading.js";
+import Loader from "../../components/Loader.js";
+import toast from "react-hot-toast";
 
 const Signup = () => {
   const navigate = useNavigate();
   const { setAuthUser } = useAuthContext();
+
+  const { loading, showLoader, hideLoader } = useLoading();
 
   const [formData, setFormData] = useState({
     username: "",
@@ -82,6 +87,7 @@ const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    showLoader();
     setErrorMessage("");
 
     var { username, email, password, confirmPassword } = formData;
@@ -122,6 +128,7 @@ const Signup = () => {
 
           setAuthUser(data.userData);
           navigate(`/Spot-It/v1/emailVerification`);
+          toast.success("Welcome to Spot-It!");
         } else if (response.status === 409) {
           setErrorMessage(data.msg);
         } else if (response.status === 400) {
@@ -129,14 +136,17 @@ const Signup = () => {
         }
       } catch (error) {
         console.log(error);
+        toast.error("Some Error Occured");
+      } finally {
+        hideLoader();
       }
-      console.log();
     }
   };
 
   return (
     <>
       <Navbar />
+      {loading && <Loader />}
       <div className="container">
         <div className="image-container">
           <img src="/assets/cat_form.jpeg" alt="image" className="cat-image" />

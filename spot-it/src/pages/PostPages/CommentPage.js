@@ -6,9 +6,14 @@ import "./CommentPage.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { useLoading } from "../../hooks/useLoading";
+import Loader from "../../components/Loader";
+import toast from "react-hot-toast";
 
 const CommentPage = () => {
   const navigate = useNavigate();
+  const { loading, showLoader, hideLoader } = useLoading();
+
   const postID = localStorage.getItem("postID");
 
   // getting the currenlty logged in user data :
@@ -32,7 +37,7 @@ const CommentPage = () => {
   // creating comment :
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    showLoader();
     try {
       const response = await fetch(
         `${process.env.REACT_APP_BACKEND_BASE_URL}/Spot-It/v1/userin/${postID}/createComment`,
@@ -47,6 +52,8 @@ const CommentPage = () => {
       );
       if (response.status === 201) {
         setComment("");
+        fetchComment();
+        toast.success("Comment added successfully");
       } else if (response.status === 400) {
         console.log("comment is required");
       } else if (response.status === 403) {
@@ -54,37 +61,45 @@ const CommentPage = () => {
       }
     } catch (error) {
       console.error(error);
+      toast.error("Failed to add comment");
+    } finally {
+      hideLoader();
+    }
+  };
+
+  // get the comments:
+  const fetchComment = async () => {
+    showLoader();
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_BASE_URL}/Spot-It/v1/userin/${postID}/comments`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `${localStorage.getItem("jwt_token")}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        const data = await response.json();
+        setData(data.comments);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      hideLoader();
     }
   };
 
   // to display comments :
   useEffect(() => {
-    const fetchComment = async () => {
-      try {
-        const response = await fetch(
-          `${process.env.REACT_APP_BACKEND_BASE_URL}/Spot-It/v1/userin/${postID}/comments`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `${localStorage.getItem("jwt_token")}`,
-            },
-          }
-        );
-
-        if (response.status === 200) {
-          const data = await response.json();
-          setData(data.comments);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
     fetchComment();
-  }, [data]);
+  }, []);
 
   // to delete a comment :
   const handleCommentDelete = async (commentID) => {
+    showLoader();
     try {
       const response = await fetch(
         `${process.env.REACT_APP_BACKEND_BASE_URL}/Spot-It/v1/userin/${postID}/${commentID}/deleteComment`,
@@ -98,9 +113,12 @@ const CommentPage = () => {
 
       if (response.status === 200) {
         setData(data.filter((comment) => comment._id !== commentID));
+        toast.success("Comment deleted successfully");
       }
     } catch (error) {
       console.error(error);
+    } finally {
+      hideLoader();
     }
   };
 
@@ -139,6 +157,7 @@ const CommentPage = () => {
   return (
     <>
       <UserNavbar />
+      {loading && <Loader />}
       <div className="main-container">
         <div className="image-container">
           <img

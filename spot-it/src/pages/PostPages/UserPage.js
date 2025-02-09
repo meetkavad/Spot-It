@@ -2,6 +2,9 @@ import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./UserPage.css";
 import UserNavbar from "../../components/UserNavbar";
+import Loader from "../../components/Loader";
+import { useLoading } from "../../hooks/useLoading";
+import toast from "react-hot-toast";
 
 // font-awesome icons :
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -16,6 +19,7 @@ const UserPage = () => {
   const userData = userDataString ? JSON.parse(userDataString) : null;
   const [lostButtonClass, setLostButtonClass] = useState("whiteColor");
   const [foundButtonClass, setFoundButtonClass] = useState("blackColor");
+  const { loading, showLoader, hideLoader } = useLoading();
 
   // search-bar value :
   const inputRef = useRef(null);
@@ -34,38 +38,42 @@ const UserPage = () => {
   };
 
   //fetch the posts:
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          `${process.env.REACT_APP_BACKEND_BASE_URL}/Spot-It/v1/userin/userPage/` +
-            urlType +
-            query,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `${localStorage.getItem("jwt_token")}`,
-            },
-          }
-        );
-
-        if (response.status === 200) {
-          const data = await response.json();
-          setData(data.posts);
-        } else if (response.status === 403) {
-          navigate("/Spot-It/v1/userin/login");
-          localStorage.setItem("userData", null);
+  const fetchData = async () => {
+    showLoader();
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_BASE_URL}/Spot-It/v1/userin/userPage/` +
+          urlType +
+          query,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `${localStorage.getItem("jwt_token")}`,
+          },
         }
-      } catch (error) {
-        console.error(error);
-      }
-    };
+      );
 
+      if (response.status === 200) {
+        const data = await response.json();
+        setData(data.posts);
+      } else if (response.status === 403) {
+        navigate("/Spot-It/v1/userin/login");
+        localStorage.setItem("userData", null);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      hideLoader();
+    }
+  };
+
+  useEffect(() => {
     fetchData();
-  }, [urlType, query, data]);
+  }, [urlType, query]);
 
   // handle post delete :
   const handlePostDelete = async (postID) => {
+    showLoader();
     try {
       const response = await fetch(
         `${process.env.REACT_APP_BACKEND_BASE_URL}/Spot-It/v1/userin/${postID}/deletePost`,
@@ -79,9 +87,13 @@ const UserPage = () => {
 
       if (response.status === 200) {
         setData(data.filter((post) => post.post_id !== postID));
+        toast.success("Post deleted!");
       }
     } catch (error) {
       console.error(error);
+      toast.error("Error deleting post!");
+    } finally {
+      hideLoader();
     }
   };
 
@@ -115,6 +127,7 @@ const UserPage = () => {
   return (
     <>
       <UserNavbar />
+      {loading && <Loader />}
       <div className="user-page-container">
         <div className="create-post-button-container">
           <button className="create-post-button" onClick={handleCreatePost}>

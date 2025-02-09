@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import "./ForgotPassword.css";
 import Navbar from "../../components/Navbar";
 import { useNavigate } from "react-router-dom";
+import Loader from "../../components/Loader";
+import { useLoading } from "../../hooks/useLoading";
+import toast from "react-hot-toast";
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
@@ -10,6 +13,7 @@ const ForgotPassword = () => {
   const [formData, setFormData] = useState({
     email: "",
   });
+  const { loading, showLoader, hideLoader } = useLoading();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -18,10 +22,10 @@ const ForgotPassword = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage("");
-    const { email } = formData;
-    console.log(email);
+    showLoader();
 
-    // posting email-code :
+    const { email } = formData;
+
     try {
       const response = await fetch(
         `${process.env.REACT_APP_BACKEND_BASE_URL}/Spot-It/v1/forgotPassword`,
@@ -39,20 +43,24 @@ const ForgotPassword = () => {
       } else if (response.status === 500) {
         setErrorMessage("Failed to Send email");
       } else if (response.status === 200) {
-        console.log("Email Sent Successfully");
         localStorage.setItem("jwt_token", data.token);
         localStorage.setItem("OnEmailVerification", "resetPassword");
 
         navigate(`/Spot-It/v1/emailVerification`);
+        toast.success("Email Sent Successfully");
       }
     } catch (error) {
       console.error(error);
+      toast.error("Some Error Occured");
+    } finally {
+      hideLoader();
     }
   };
 
   return (
     <>
       <Navbar />
+      {loading && <Loader />}
       <div className="container">
         <div className="image-container">
           <img

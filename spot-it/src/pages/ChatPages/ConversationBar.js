@@ -3,11 +3,13 @@ import { useContext } from "react";
 import { useConversation } from "../../zustand/useConversation";
 import { useAuthContext } from "../../context/authContext.js";
 import { SocketContext } from "../../context/socketContext.js";
+import Loader from "../../components/Loader";
+import { useLoading } from "../../hooks/useLoading";
 
 import "./ChatPage.css";
-import { height } from "@fortawesome/free-solid-svg-icons/fa0";
 
 export const Conversation = ({ conversation }) => {
+  const { loading, showLoader, hideLoader } = useLoading();
   const { selectedConversation, setSelectedConversation } = useConversation();
   const isSelected = selectedConversation?._id === conversation._id;
   const { authUser } = useAuthContext();
@@ -21,6 +23,7 @@ export const Conversation = ({ conversation }) => {
 
   return (
     <>
+      {loading && <Loader />}
       <div
         className={`conversationComponentClass ${
           isSelected ? "selectedClass" : ""

@@ -2,9 +2,13 @@ import React, { useEffect, useState } from "react";
 import "./CreatePost.css";
 import { useNavigate } from "react-router-dom";
 import UserNavbar from "../../components/UserNavbar";
+import { useLoading } from "../../hooks/useLoading";
+import Loader from "../../components/Loader";
+import toast from "react-hot-toast";
 
 const CreatePost = () => {
   const navigate = useNavigate();
+  const { loading, showLoader, hideLoader } = useLoading();
 
   const [errorMessage, setErrorMessage] = useState("");
   const [formData, setFormData] = useState({
@@ -25,6 +29,7 @@ const CreatePost = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    showLoader();
 
     const { type, item_name, location, description, image } = formData;
     console.log({ type, item_name, location, description, image });
@@ -49,6 +54,7 @@ const CreatePost = () => {
 
       if (response.status === 200) {
         navigate("/Spot-It/v1/userin/userPage");
+        toast.success("Post created successfully");
       } else if (response.status === 403) {
         localStorage.setItem("userData", null);
       } else {
@@ -56,6 +62,9 @@ const CreatePost = () => {
       }
     } catch (error) {
       console.error(error);
+      toast.error("Failed to create post");
+    } finally {
+      hideLoader();
     }
   };
 
@@ -67,6 +76,7 @@ const CreatePost = () => {
   return (
     <>
       <UserNavbar />
+      {loading && <Loader />}
       <div className="container">
         <div className="image-container">
           <img

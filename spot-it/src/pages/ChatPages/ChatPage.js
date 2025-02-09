@@ -10,6 +10,8 @@ import { MessageContainer } from "./Messages/MessageContainer.js";
 import { useConversation } from "../../zustand/useConversation";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { useLoading } from "../../hooks/useLoading";
+import Loader from "../../components/Loader";
 
 const ChatPage = () => {
   const { onlineUsers } = useSocketContext();
@@ -19,6 +21,7 @@ const ChatPage = () => {
   const [searchUserData, setSearchUserData] = useState([]);
   const [searchValue, setSearchValue] = useState("");
   const { selectedConversation, setSelectedConversation } = useConversation();
+  const { showLoader, hideLoader } = useLoading();
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -26,34 +29,36 @@ const ChatPage = () => {
   }, [initialConversations]);
 
   // searching while typing :
-  const handleUserSearch = async (e) => {
-    e.preventDefault();
 
-    if (searchValue.trim() !== "") {
-      try {
-        const response = await fetch(
-          `${process.env.REACT_APP_BACKEND_BASE_URL}/Spot-It/v1/userin/chat/?user=${searchValue}`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `${localStorage.getItem("jwt_token")}`,
-            },
+  useEffect(() => {
+    const handleUserSearch = async () => {
+      if (searchValue.trim() !== "") {
+        try {
+          const response = await fetch(
+            `${process.env.REACT_APP_BACKEND_BASE_URL}/Spot-It/v1/userin/chat/?user=${searchValue}`,
+            {
+              method: "GET",
+              headers: {
+                Authorization: `${localStorage.getItem("jwt_token")}`,
+              },
+            }
+          );
+          if (response.status === 200) {
+            const data = await response.json();
+            setSearchUserData(data.users);
+          } else if (response.status === 403) {
+            navigate("/Spot-It/v1/login");
+            localStorage.setItem("userData", null);
           }
-        );
-        if (response.status === 200) {
-          const data = await response.json();
-          setSearchUserData(data.users);
-        } else if (response.status === 403) {
-          navigate("/Spot-It/v1/login");
-          localStorage.setItem("userData", null);
+        } catch (error) {
+          toast.error(error.message);
         }
-      } catch (error) {
-        toast.error(error.message);
+      } else {
+        setSearchUserData([]);
       }
-    } else {
-      setSearchUserData([]);
-    }
-  };
+    };
+    handleUserSearch();
+  }, [searchValue]);
 
   // Get a conversation:
   const getConversation = async (userID) => {
@@ -91,6 +96,7 @@ const ChatPage = () => {
   return (
     <>
       <UserNavbar />
+      {loading && <Loader />}
       <div className="container">
         <div className="all-chat-container">
           <div className="search-bar">
@@ -101,7 +107,6 @@ const ChatPage = () => {
               value={searchValue}
               onChange={(e) => {
                 setSearchValue(e.target.value);
-                handleUserSearch(e);
               }}
             />
           </div>

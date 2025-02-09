@@ -3,24 +3,33 @@ import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../context/authContext.js";
 import UserNavbar from "../../components/UserNavbar";
 import "./ProfilePage.css";
+import { useLoading } from "../../hooks/useLoading";
+
+import Loader from "../../components/Loader";
+import toast from "react-hot-toast";
 
 const ProfilePage = () => {
   const { setAuthUser } = useAuthContext();
+  const { loading, showLoader, hideLoader } = useLoading();
 
   const navigate = useNavigate();
   const userDataString = localStorage.getItem("userData");
   const userData = userDataString ? JSON.parse(userDataString) : null;
 
   const handleLogOut = (e) => {
+    showLoader();
     localStorage.removeItem("jwt_token");
     localStorage.removeItem("userData");
     setAuthUser(null);
+    toast.success("Logged out successfully");
     navigate("/Spot-It/v1/landing");
+    hideLoader();
   };
 
   return (
     <>
       <UserNavbar />
+      {loading && <Loader />}
       <div className="container">
         <div className="image-container">
           <img

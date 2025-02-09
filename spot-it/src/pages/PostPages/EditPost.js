@@ -2,9 +2,14 @@ import { React, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import UserNavbar from "../../components/UserNavbar";
 import "./EditPost.css";
+import { useLoading } from "../../hooks/useLoading";
+import Loader from "../../components/Loader";
+import toast from "react-hot-toast";
 
 const EditPost = () => {
   const navigate = useNavigate();
+  const { loading, showLoader, hideLoader } = useLoading();
+
   const postID = localStorage.getItem("postID");
 
   const [errorMessage, setErrorMessage] = useState("");
@@ -26,6 +31,7 @@ const EditPost = () => {
   }, []);
 
   const fetchPostData = async () => {
+    showLoader();
     try {
       const response = await fetch(
         `${process.env.REACT_APP_BACKEND_BASE_URL}/Spot-It/v1/userin/${postID}/getPost`,
@@ -50,10 +56,13 @@ const EditPost = () => {
       }
     } catch (error) {
       console.error(error);
+    } finally {
+      hideLoader();
     }
   };
 
   const handleSubmit = async (e) => {
+    showLoader();
     e.preventDefault();
 
     const { type, item_name, location, description } = formData;
@@ -78,6 +87,7 @@ const EditPost = () => {
 
       if (response.status === 200) {
         navigate("/Spot-It/v1/userin/userPage");
+        toast.success("Post Edited Successfully");
       } else if (response.status === 403) {
         navigate("/Spot-It/v1/login");
         localStorage.setItem("userData", null);
@@ -86,6 +96,9 @@ const EditPost = () => {
       }
     } catch (error) {
       console.error(error);
+      toast.error("Failed to edit post");
+    } finally {
+      hideLoader();
     }
   };
 
@@ -97,6 +110,7 @@ const EditPost = () => {
   return (
     <>
       <UserNavbar />
+      {loading && <Loader />}
       <div className="container">
         <div className="image-container">
           <img

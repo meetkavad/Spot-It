@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import "./ResetPassword.css";
 import Navbar from "../../components/Navbar";
 import { useNavigate } from "react-router-dom";
+import Loader from "../../components/Loader.js";
+import { useLoading } from "../../hooks/useLoading";
+import toast from "react-hot-toast";
 
 const ResetPassword = () => {
   const navigate = useNavigate();
@@ -9,6 +12,8 @@ const ResetPassword = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [passwordText, setPasswordText] = useState("");
   const [passwordTextClass, setPasswordTextClass] = useState("red");
+
+  const { loading, showLoader, hideLoader } = useLoading();
 
   const [formData, setFormData] = useState({
     password: "",
@@ -53,6 +58,7 @@ const ResetPassword = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    showLoader();
     const { password, confirmPassword } = formData;
 
     if (password !== confirmPassword) {
@@ -75,9 +81,12 @@ const ResetPassword = () => {
         );
         if (response.status === 200) {
           navigate(`/Spot-It/v1/login`);
+          toast.success("Password reset successful");
         }
       } catch (error) {
         console.error(error);
+      } finally {
+        hideLoader();
       }
     }
   };
@@ -85,6 +94,7 @@ const ResetPassword = () => {
   return (
     <>
       <Navbar />
+      {loading && <Loader />}
       <div className="container">
         <div className="image-container">
           <img src="/assets/cat_form.jpeg" alt="image" className="cat-image" />

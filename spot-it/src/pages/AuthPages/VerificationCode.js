@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import "./VerificationCode.css";
 import Navbar from "../../components/Navbar";
 import { useNavigate } from "react-router-dom";
+import { useLoading } from "../../hooks/useLoading.js";
+import Loader from "../../components/Loader.js";
+import toast from "react-hot-toast";
 
 const VerificationCode = () => {
   const navigate = useNavigate();
@@ -10,6 +13,7 @@ const VerificationCode = () => {
   const jwt_token = localStorage.getItem("jwt_token");
   const OnEmailVerification = localStorage.getItem("OnEmailVerification");
 
+  const { loading, showLoader, hideLoader } = useLoading();
   const [formData, setFormData] = useState({
     email_code: "",
   });
@@ -20,8 +24,8 @@ const VerificationCode = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    showLoader();
     const { email_code } = formData;
-    console.log(email_code);
 
     // posting email-code :
     try {
@@ -48,7 +52,7 @@ const VerificationCode = () => {
         document.getElementsByClassName("submit-button").disabled = true;
         navigate(`/Spot-It/v1/signup`);
       } else if (response.status === 200) {
-        console.log("Email Verified Successfully");
+        toast.success("Email Verified Successfully");
         if (OnEmailVerification === "resetPassword") {
           navigate(`/Spot-It/v1/resetPassword`);
         } else {
@@ -57,12 +61,16 @@ const VerificationCode = () => {
       }
     } catch (error) {
       console.error(error);
+      toast.error("Some Error Occured");
+    } finally {
+      hideLoader();
     }
   };
 
   return (
     <>
       <Navbar />
+      {loading && <Loader />}
       <div className="container">
         <div className="image-container">
           <img

@@ -1,12 +1,15 @@
 import { useConversation } from "../zustand/useConversation";
 import toast from "react-hot-toast";
+import { useLoading } from "./useLoading";
 const { useNavigate } = require("react-router-dom");
 
 export const useEditMessage = () => {
   const { messages, setMessages, selectedConversation } = useConversation();
+  const { loading, showLoader, hideLoader } = useLoading();
 
   const navigate = useNavigate();
   const updateMessage = async (message, messageId) => {
+    showLoader();
     try {
       const response = await fetch(
         `${process.env.REACT_APP_BACKEND_BASE_URL}/Spot-It/v1/userin/chat/message/${selectedConversation._id}/${messageId}`,
@@ -31,6 +34,8 @@ export const useEditMessage = () => {
       }
     } catch (error) {
       toast.error(error.message);
+    } finally {
+      hideLoader();
     }
   };
 

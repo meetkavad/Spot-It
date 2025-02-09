@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import UserNavbar from "../../components/UserNavbar";
 import "./NotificationPage.css";
 import { useNavigate } from "react-router-dom";
+import { useLoading } from "../../hooks/useLoading";
+import Loader from "../../components/Loader";
 
 const toDate = (time_stamp) => {
   const date = new Date(time_stamp);
@@ -11,7 +13,10 @@ const NotificationPage = () => {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
 
+  const { loading, showLoader, hideLoader } = useLoading();
+
   useEffect(() => {
+    showLoader();
     const fetchNotifications = async () => {
       try {
         const response = await fetch(
@@ -34,6 +39,8 @@ const NotificationPage = () => {
         }
       } catch (error) {
         console.error(error);
+      } finally {
+        hideLoader();
       }
     };
     fetchNotifications();
@@ -42,7 +49,7 @@ const NotificationPage = () => {
   return (
     <>
       <UserNavbar />
-
+      {loading && <Loader />}
       <div className="container">
         <div className="image-container">
           <img
