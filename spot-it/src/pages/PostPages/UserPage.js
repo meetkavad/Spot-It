@@ -61,7 +61,7 @@ const UserPage = () => {
         localStorage.setItem("userData", null);
       }
     } catch (error) {
-      console.error(error);
+      console.log(error.message);
     } finally {
       hideLoader();
     }
@@ -90,7 +90,7 @@ const UserPage = () => {
         toast.success("Post deleted!");
       }
     } catch (error) {
-      console.error(error);
+      console.log(error.message);
       toast.error("Error deleting post!");
     } finally {
       hideLoader();

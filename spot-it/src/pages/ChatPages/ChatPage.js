@@ -3,25 +3,21 @@ import "./ChatPage.css";
 import "./Messages/Messages.css";
 
 import UserNavbar from "../../components/UserNavbar";
-import { useSocketContext } from "../../context/socketContext.js";
 import { useGetConversations } from "../../hooks/useGetConversations.js";
 import { Conversation } from "./ConversationBar.js";
 import { MessageContainer } from "./Messages/MessageContainer.js";
 import { useConversation } from "../../zustand/useConversation";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { useLoading } from "../../hooks/useLoading";
 import Loader from "../../components/Loader";
 
 const ChatPage = () => {
-  const { onlineUsers } = useSocketContext();
   const { loading, conversations: initialConversations } =
     useGetConversations();
   const [conversations, setConversations] = useState(initialConversations);
   const [searchUserData, setSearchUserData] = useState([]);
   const [searchValue, setSearchValue] = useState("");
   const { selectedConversation, setSelectedConversation } = useConversation();
-  const { showLoader, hideLoader } = useLoading();
 
   const navigate = useNavigate();
   useEffect(() => {

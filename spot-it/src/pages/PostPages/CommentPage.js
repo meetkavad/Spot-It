@@ -60,7 +60,7 @@ const CommentPage = () => {
         localStorage.setItem("userData", null);
       }
     } catch (error) {
-      console.error(error);
+      console.log(error.message);
       toast.error("Failed to add comment");
     } finally {
       hideLoader();
@@ -86,7 +86,7 @@ const CommentPage = () => {
         setData(data.comments);
       }
     } catch (error) {
-      console.error(error);
+      console.log(error.message);
     } finally {
       hideLoader();
     }
@@ -116,7 +116,7 @@ const CommentPage = () => {
         toast.success("Comment deleted successfully");
       }
     } catch (error) {
-      console.error(error);
+      console.log(error.message);
     } finally {
       hideLoader();
     }
@@ -144,7 +144,7 @@ const CommentPage = () => {
   //   //     setComment("");
   //   //   }
   //   // } catch (error) {
-  //   //   console.error(error);
+  //   //console.log(error.message);
   //   // }
   //   setEditMode(true);
   // };

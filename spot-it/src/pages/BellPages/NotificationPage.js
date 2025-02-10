@@ -38,7 +38,7 @@ const NotificationPage = () => {
           localStorage.setItem("userData", null);
         }
       } catch (error) {
-        console.error(error);
+        console.log(error.message);
       } finally {
         hideLoader();
       }

@@ -55,7 +55,7 @@ const Signup = () => {
           setUsernameMessage(data.msg);
           setUsernameClass(data.color);
         } catch (error) {
-          console.error(error);
+          console.log(error.message);
         }
       }
     } else if (e.target.name === "password") {

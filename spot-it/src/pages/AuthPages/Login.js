@@ -59,7 +59,7 @@ const Login = () => {
         navigate(`/Spot-It/v1/userin/userPage`);
       }
     } catch (error) {
-      console.error(error);
+      console.log(error.message);
       toast.error("Error logging in!");
     } finally {
       hideLoader();

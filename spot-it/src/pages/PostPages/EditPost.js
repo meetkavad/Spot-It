@@ -55,7 +55,7 @@ const EditPost = () => {
         console.log("error");
       }
     } catch (error) {
-      console.error(error);
+      console.log(error.message);
     } finally {
       hideLoader();
     }
@@ -95,7 +95,7 @@ const EditPost = () => {
         setErrorMessage("Error editing post. Please try again.");
       }
     } catch (error) {
-      console.error(error);
+      console.log(error.message);
       toast.error("Failed to edit post");
     } finally {
       hideLoader();

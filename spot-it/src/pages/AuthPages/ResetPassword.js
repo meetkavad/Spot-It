@@ -84,7 +84,7 @@ const ResetPassword = () => {
           toast.success("Password reset successful");
         }
       } catch (error) {
-        console.error(error);
+        console.log(error.message);
       } finally {
         hideLoader();
       }

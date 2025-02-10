@@ -42,7 +42,7 @@ const MessageInput = () => {
         value={message}
         onChange={(e) => setMessage(e.target.value)}
       />
-      <button type="submit">{loading ? "loading..." : `${type}`}</button>
+      <button type="submit">{loading ? `${type}ing..` : `${type}`}</button>
     </form>
   );
 };

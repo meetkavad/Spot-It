@@ -50,7 +50,7 @@ const ForgotPassword = () => {
         toast.success("Email Sent Successfully");
       }
     } catch (error) {
-      console.error(error);
+      console.log(error.message);
       toast.error("Some Error Occured");
     } finally {
       hideLoader();
