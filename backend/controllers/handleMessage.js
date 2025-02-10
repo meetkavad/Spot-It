@@ -50,7 +50,7 @@ const sendMessage = async (req, res) => {
 
     res.status(200).json({ message: message });
   } catch (error) {
-    console.error(error);
+    console.log(error.message);
   }
 };
 

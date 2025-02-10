@@ -89,7 +89,7 @@ const fetchChats = async (req, res) => {
         res.status(200).json({ results: results });
       });
   } catch (error) {
-    console.error(error);
+    console.log(error.message);
   }
 };
 
@@ -112,7 +112,7 @@ const createGroupChat = async (req, res) => {
 
     res.status(200).json(fullGroupChat);
   } catch (error) {
-    console.error(error);
+    console.log(error.message);
   }
 };
 

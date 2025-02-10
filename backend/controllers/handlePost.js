@@ -32,7 +32,7 @@ const CreatePost = async (req, res) => {
 
     res.status(200).json({ msg: "post uploaded successfully " });
   } catch (error) {
-    console.error(error);
+    console.log(error.message);
   }
 };
 
@@ -81,7 +81,7 @@ const getUserPagePosts = async (req, res) => {
       posts: formattedPosts,
     });
   } catch (error) {
-    console.error(error);
+    console.log(error.message);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
@@ -96,7 +96,7 @@ const getPost = async (req, res) => {
     }
     res.status(200).json({ post: post });
   } catch (error) {
-    console.error(error);
+    console.log(error.message);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
@@ -113,7 +113,7 @@ const deletePost = async (req, res) => {
 
     res.status(200).json({ msg: "post deleted successfully" });
   } catch (error) {
-    console.error(error);
+    console.log(error.message);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
@@ -134,7 +134,7 @@ const editPost = async (req, res) => {
     );
     res.status(200).json({ msg: "post updated successfully" });
   } catch (error) {
-    console.error(error);
+    console.log(error.message);
   }
 };
 

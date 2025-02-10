@@ -8,7 +8,7 @@ const getProfile = async (req, res) => {
       user: user,
     });
   } catch (error) {
-    console.error(error);
+    console.log(error.message);
   }
 };
 

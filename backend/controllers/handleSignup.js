@@ -94,7 +94,7 @@ const PostUserSignup = async (req, res) => {
 
     transporter.sendMail(mailOptions, async (error, info) => {
       if (error) {
-        console.error(error);
+        console.log(error.message);
         // Attempt to delete the user :
         await UserModel.findOneAndDelete({
           "email.address": email, // email : {address : email} didn't worked here...
@@ -113,7 +113,7 @@ const PostUserSignup = async (req, res) => {
       });
     });
   } catch (error) {
-    console.error(error);
+    console.log(error.message);
   }
 };
 
