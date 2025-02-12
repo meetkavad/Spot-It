@@ -17,6 +17,10 @@ const MessageInput = () => {
       setMessage(editMessage.content);
       setMessageId(editMessage.id);
       setType("edit");
+    } else {
+      setMessage("");
+      setMessageId("");
+      setType("send");
     }
   }, [editMessage]);
 

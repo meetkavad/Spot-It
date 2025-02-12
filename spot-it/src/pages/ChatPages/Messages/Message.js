@@ -23,7 +23,7 @@ function padZero(number) {
 const Message = ({ message }) => {
   const { authUser } = useAuthContext();
   const { selectedConversation } = useConversation();
-  const { setEditMessage } = useMessageContext();
+  const { editMessage, setEditMessage } = useMessageContext();
   const { messages, setMessages } = useConversation();
   const navigate = useNavigate();
 
@@ -78,6 +78,7 @@ const Message = ({ message }) => {
       );
       if (response.ok) {
         setMessages(messages.filter((msg) => msg._id !== message._id));
+        setEditMessage(null);
         toast.success("Message deleted!");
       }
 
