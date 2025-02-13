@@ -57,8 +57,8 @@ const UserPage = () => {
         const data = await response.json();
         setData(data.posts);
       } else if (response.status === 403) {
-        navigate("/v1/userin/login");
         localStorage.setItem("userData", null);
+        navigate("/v1/login");
       }
     } catch (error) {
       console.log(error.message);
