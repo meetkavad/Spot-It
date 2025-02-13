@@ -31,7 +31,7 @@ const CommentPage = () => {
 
   const handleBackButton = (e) => {
     e.preventDefault();
-    navigate("/Spot-It/v1/userin/userPage");
+    navigate("/v1/userin/userPage");
   };
 
   // creating comment :
@@ -40,7 +40,7 @@ const CommentPage = () => {
     showLoader();
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_BASE_URL}/Spot-It/v1/userin/${postID}/createComment`,
+        `${process.env.REACT_APP_BACKEND_BASE_URL}/v1/userin/${postID}/createComment`,
         {
           method: "POST",
           headers: {
@@ -72,7 +72,7 @@ const CommentPage = () => {
     showLoader();
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_BASE_URL}/Spot-It/v1/userin/${postID}/comments`,
+        `${process.env.REACT_APP_BACKEND_BASE_URL}/v1/userin/${postID}/comments`,
         {
           method: "GET",
           headers: {
@@ -102,7 +102,7 @@ const CommentPage = () => {
     showLoader();
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_BASE_URL}/Spot-It/v1/userin/${postID}/${commentID}/deleteComment`,
+        `${process.env.REACT_APP_BACKEND_BASE_URL}/v1/userin/${postID}/${commentID}/deleteComment`,
         {
           method: "DELETE",
           headers: {
@@ -129,7 +129,7 @@ const CommentPage = () => {
   // const handleEditComment = async (commentID) => {
   //   // try {
   //   //   const response = await fetch(
-  //   //     `http://localhost:5000/Spot-It/v1/userin/${postID}/${commentID}/createComment`,
+  //   //     `http://localhost:5000/v1/userin/${postID}/${commentID}/createComment`,
   //   //     {
   //   //       method: "PATCH",
   //   //       headers: {

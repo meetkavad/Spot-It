@@ -20,7 +20,7 @@ const NotificationPage = () => {
     const fetchNotifications = async () => {
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_BACKEND_BASE_URL}/Spot-It/v1/userin/notifications`,
+          `${process.env.REACT_APP_BACKEND_BASE_URL}/v1/userin/notifications`,
           {
             method: "GET",
             headers: {
@@ -34,7 +34,7 @@ const NotificationPage = () => {
           setData(data.notifications);
           console.log(data.notifications);
         } else if (response.status === 403) {
-          navigate("/Spot-It/v1/login");
+          navigate("/v1/login");
           localStorage.setItem("userData", null);
         }
       } catch (error) {

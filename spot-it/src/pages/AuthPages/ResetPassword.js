@@ -69,7 +69,7 @@ const ResetPassword = () => {
     } else {
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_BACKEND_BASE_URL}/Spot-It/v1/resetPassword`,
+          `${process.env.REACT_APP_BACKEND_BASE_URL}/v1/resetPassword`,
           {
             method: "PATCH",
             headers: {
@@ -80,7 +80,7 @@ const ResetPassword = () => {
           }
         );
         if (response.status === 200) {
-          navigate(`/Spot-It/v1/login`);
+          navigate(`/v1/login`);
           toast.success("Password reset successful");
         }
       } catch (error) {

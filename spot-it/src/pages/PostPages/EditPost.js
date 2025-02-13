@@ -34,7 +34,7 @@ const EditPost = () => {
     showLoader();
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_BASE_URL}/Spot-It/v1/userin/${postID}/getPost`,
+        `${process.env.REACT_APP_BACKEND_BASE_URL}/v1/userin/${postID}/getPost`,
         {
           method: "GET",
           headers: {
@@ -48,7 +48,7 @@ const EditPost = () => {
         console.log(data.post);
         setFormData(data.post);
       } else if (response.status === 403) {
-        navigate("/Spot-It/v1/login");
+        navigate("/v1/login");
         localStorage.setItem("userData", null);
       } else {
         setErrorMessage("Error fetching post data. Please try again.");
@@ -69,7 +69,7 @@ const EditPost = () => {
 
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_BASE_URL}/Spot-It/v1/userin/${postID}/editPost`,
+        `${process.env.REACT_APP_BACKEND_BASE_URL}/v1/userin/${postID}/editPost`,
         {
           method: "PATCH",
           headers: {
@@ -86,10 +86,10 @@ const EditPost = () => {
       );
 
       if (response.status === 200) {
-        navigate("/Spot-It/v1/userin/userPage");
+        navigate("/v1/userin/userPage");
         toast.success("Post Edited Successfully");
       } else if (response.status === 403) {
-        navigate("/Spot-It/v1/login");
+        navigate("/v1/login");
         localStorage.setItem("userData", null);
       } else {
         setErrorMessage("Error editing post. Please try again.");
@@ -104,7 +104,7 @@ const EditPost = () => {
 
   const handleCancelButton = (e) => {
     e.preventDefault();
-    navigate("/Spot-It/v1/userin/userPage");
+    navigate("/v1/userin/userPage");
   };
 
   return (

@@ -8,7 +8,7 @@ const LandingPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    navigate("/Spot-It/v1/Signup");
+    navigate("/v1/Signup");
   };
 
   return (

@@ -29,7 +29,7 @@ import { useAuthContext } from "./context/authContext.js";
 function App() {
   const { authUser } = useAuthContext();
 
-  const RedirectToLogin = ({ children, redirectTo = "/Spot-It/v1/login" }) => {
+  const RedirectToLogin = ({ children, redirectTo = "/v1/login" }) => {
     return authUser ? children : <Navigate to={redirectTo} />;
   };
 
@@ -38,42 +38,28 @@ function App() {
       <BrowserRouter>
         <Routes>
           {/* any other path is sent to landing page: */}
-          <Route path="*" element={<Navigate to="/Spot-It/v1/login" />} />
-          <Route path="/Spot-It/v1/landing" element={<LandingPage />}></Route>
+          <Route path="*" element={<Navigate to="/v1/login" />} />
+          <Route path="/v1/landing" element={<LandingPage />}></Route>
           <Route
-            path="/Spot-It/v1/signup"
+            path="/v1/signup"
             element={
-              authUser ? (
-                <Navigate to="/Spot-It/v1/userin/userPage" />
-              ) : (
-                <Signup />
-              )
+              authUser ? <Navigate to="/v1/userin/userPage" /> : <Signup />
             }
           ></Route>
           <Route
-            path="/Spot-It/v1/login"
+            path="/v1/login"
             element={
-              authUser ? (
-                <Navigate to="/Spot-It/v1/userin/userPage" />
-              ) : (
-                <Login />
-              )
+              authUser ? <Navigate to="/v1/userin/userPage" /> : <Login />
             }
           ></Route>
           <Route
-            path="/Spot-It/v1/emailVerification"
+            path="/v1/emailVerification"
             element={<VerificationCode />}
           ></Route>
+          <Route path="/v1/forgotPassword" element={<ForgotPassword />}></Route>
+          <Route path="/v1/resetPassword" element={<ResetPassword />}></Route>
           <Route
-            path="/Spot-It/v1/forgotPassword"
-            element={<ForgotPassword />}
-          ></Route>
-          <Route
-            path="/Spot-It/v1/resetPassword"
-            element={<ResetPassword />}
-          ></Route>
-          <Route
-            path="/Spot-It/v1/userin/createPost"
+            path="/v1/userin/createPost"
             element={
               <RedirectToLogin>
                 <CreatePost />
@@ -81,7 +67,7 @@ function App() {
             }
           ></Route>
           <Route
-            path="/Spot-It/v1/userin/userPage"
+            path="/v1/userin/userPage"
             element={
               <RedirectToLogin>
                 <UserPage />
@@ -89,7 +75,7 @@ function App() {
             }
           />
           <Route
-            path="/Spot-It/v1/userin/notifications"
+            path="/v1/userin/notifications"
             element={
               <RedirectToLogin>
                 <NotificationPage />
@@ -97,7 +83,7 @@ function App() {
             }
           ></Route>
           <Route
-            path="/Spot-It/v1/userin/userProfile"
+            path="/v1/userin/userProfile"
             element={
               <RedirectToLogin>
                 <ProfilePage />
@@ -105,7 +91,7 @@ function App() {
             }
           ></Route>
           <Route
-            path="/Spot-It/v1/userin/chat"
+            path="/v1/userin/chat"
             element={
               <RedirectToLogin>
                 <ChatPage />
@@ -113,7 +99,7 @@ function App() {
             }
           ></Route>
           <Route
-            path="/Spot-It/v1/userin/:postID/comments"
+            path="/v1/userin/:postID/comments"
             element={
               <RedirectToLogin>
                 <CommentPage />
@@ -121,7 +107,7 @@ function App() {
             }
           ></Route>
           <Route
-            path="/Spot-It/v1/userin/editPost"
+            path="/v1/userin/editPost"
             element={
               <RedirectToLogin>
                 <EditPost />

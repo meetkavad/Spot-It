@@ -13,27 +13,27 @@ import {
 const UserNavbar = () => {
   return (
     <div id="user-navbar">
-      <a href="/Spot-It/v1/Landing">
+      <a href="/v1/Landing">
         <img src="/assets/spot_it_logo.jpeg" alt="logo" />
       </a>
       <div id="icons">
         <div className="icon">
-          <a className="fas fa-home" href="/Spot-It/v1/userin/userPage">
+          <a className="fas fa-home" href="/v1/userin/userPage">
             <FontAwesomeIcon icon={faHome} style={{ height: "3vh" }} />
           </a>
         </div>
         <div className="icon">
-          <a className="fas fa-message" href="/Spot-It/v1/userin/chat">
+          <a className="fas fa-message" href="/v1/userin/chat">
             <FontAwesomeIcon icon={faMessage} style={{ height: "3vh" }} />
           </a>
         </div>
         <div className="icon">
-          <a className="fas fa-bell" href="/Spot-It/v1/userin/notifications">
+          <a className="fas fa-bell" href="/v1/userin/notifications">
             <FontAwesomeIcon icon={faBell} style={{ height: "3vh" }} />
           </a>
         </div>
         <div className="icon">
-          <a className="fas fa-user" href="/Spot-It/v1/userin/userProfile">
+          <a className="fas fa-user" href="/v1/userin/userProfile">
             <FontAwesomeIcon icon={faUser} style={{ height: "3vh" }} />
           </a>
         </div>

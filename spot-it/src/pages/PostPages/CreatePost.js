@@ -42,7 +42,7 @@ const CreatePost = () => {
 
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_BASE_URL}/Spot-It/v1/userin/createPost`,
+        `${process.env.REACT_APP_BACKEND_BASE_URL}/v1/userin/createPost`,
         {
           method: "POST",
           headers: {
@@ -53,7 +53,7 @@ const CreatePost = () => {
       );
 
       if (response.status === 200) {
-        navigate("/Spot-It/v1/userin/userPage");
+        navigate("/v1/userin/userPage");
         toast.success("Post created successfully");
       } else if (response.status === 403) {
         localStorage.setItem("userData", null);
@@ -70,7 +70,7 @@ const CreatePost = () => {
 
   const handleCancelButton = (e) => {
     e.preventDefault();
-    navigate("/Spot-It/v1/userin/userPage");
+    navigate("/v1/userin/userPage");
   };
 
   return (

@@ -22,7 +22,7 @@ const ProfilePage = () => {
     localStorage.removeItem("userData");
     setAuthUser(null);
     toast.success("Logged out successfully");
-    navigate("/Spot-It/v1/landing");
+    navigate("/v1/landing");
     hideLoader();
   };
 

@@ -14,10 +14,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/images", express.static("images"));
 
 //Routers
-app.use("/Spot-It/v1", authRouter);
-app.use("/Spot-It/v1/userin", userRouter);
-app.use("/Spot-It/v1/userin/chat", chatRouter);
-app.use("/Spot-It/v1/userin/chat/message", messageRouter);
+app.use("/v1", authRouter);
+app.use("/v1/userin", userRouter);
+app.use("/v1/userin/chat", chatRouter);
+app.use("/v1/userin/chat/message", messageRouter);
 
 const port = process.env.PORT || 5000;
 

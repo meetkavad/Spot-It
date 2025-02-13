@@ -30,7 +30,7 @@ const VerificationCode = () => {
     // posting email-code :
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_BASE_URL}/Spot-It/v1/emailVerification`,
+        `${process.env.REACT_APP_BACKEND_BASE_URL}/v1/emailVerification`,
         {
           method: "POST",
           headers: {
@@ -43,20 +43,20 @@ const VerificationCode = () => {
       const data = await response.json();
       if (response.status === 401) {
         console.log("Access Denied!");
-        navigate(`/Spot-It/v1/signup`);
+        navigate(`/v1/signup`);
       } else if (response.status === 403) {
         console.log("Session Expired  , Please login again");
-        navigate(`/Spot-It/v1/signup`);
+        navigate(`/v1/signup`);
       } else if (response.status === 400) {
         console.log("Invalid Code");
         document.getElementsByClassName("submit-button").disabled = true;
-        navigate(`/Spot-It/v1/signup`);
+        navigate(`/v1/signup`);
       } else if (response.status === 200) {
         toast.success("Email Verified Successfully");
         if (OnEmailVerification === "resetPassword") {
-          navigate(`/Spot-It/v1/resetPassword`);
+          navigate(`/v1/resetPassword`);
         } else {
-          navigate(`/Spot-It/v1/userin/userPage`);
+          navigate(`/v1/userin/userPage`);
         }
       }
     } catch (error) {

@@ -34,7 +34,7 @@ const UserPage = () => {
 
   // on clicking create post :
   const handleCreatePost = () => {
-    navigate("/Spot-It/v1/userin/createPost");
+    navigate("/v1/userin/createPost");
   };
 
   //fetch the posts:
@@ -42,7 +42,7 @@ const UserPage = () => {
     showLoader();
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_BASE_URL}/Spot-It/v1/userin/userPage/` +
+        `${process.env.REACT_APP_BACKEND_BASE_URL}/v1/userin/userPage/` +
           urlType +
           query,
         {
@@ -57,7 +57,7 @@ const UserPage = () => {
         const data = await response.json();
         setData(data.posts);
       } else if (response.status === 403) {
-        navigate("/Spot-It/v1/userin/login");
+        navigate("/v1/userin/login");
         localStorage.setItem("userData", null);
       }
     } catch (error) {
@@ -76,7 +76,7 @@ const UserPage = () => {
     showLoader();
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_BASE_URL}/Spot-It/v1/userin/${postID}/deletePost`,
+        `${process.env.REACT_APP_BACKEND_BASE_URL}/v1/userin/${postID}/deletePost`,
         {
           method: "DELETE",
           headers: {
@@ -100,13 +100,13 @@ const UserPage = () => {
   // handle post edit :
   const handlePostEdit = async (postID) => {
     localStorage.setItem("postID", postID); // to use this postID in EditPost.js
-    navigate(`/Spot-It/v1/userin/editPost`);
+    navigate(`/v1/userin/editPost`);
   };
 
   // on clicking comment button :
   const handleCommentButton = (postID) => {
     localStorage.setItem("postID", postID); // to use this postID in CommentPage.js
-    navigate(`/Spot-It/v1/userin/${postID}/comments`);
+    navigate(`/v1/userin/${postID}/comments`);
   };
 
   const handleSearchBarValue = async () => {

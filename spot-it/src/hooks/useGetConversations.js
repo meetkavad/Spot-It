@@ -13,7 +13,7 @@ export const useGetConversations = () => {
       showLoader();
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_BACKEND_BASE_URL}/Spot-It/v1/userin/chat/fetchChats`,
+          `${process.env.REACT_APP_BACKEND_BASE_URL}/v1/userin/chat/fetchChats`,
           {
             method: "GET",
             headers: {
@@ -22,7 +22,7 @@ export const useGetConversations = () => {
           }
         );
         if (response.status === 403) {
-          navigate("/Spot-It/v1/login");
+          navigate("/v1/login");
           localStorage.setItem("userData", null);
         }
         const data = await response.json();

@@ -31,7 +31,7 @@ const ChatPage = () => {
       if (searchValue.trim() !== "") {
         try {
           const response = await fetch(
-            `${process.env.REACT_APP_BACKEND_BASE_URL}/Spot-It/v1/userin/chat/?user=${searchValue}`,
+            `${process.env.REACT_APP_BACKEND_BASE_URL}/v1/userin/chat/?user=${searchValue}`,
             {
               method: "GET",
               headers: {
@@ -43,7 +43,7 @@ const ChatPage = () => {
             const data = await response.json();
             setSearchUserData(data.users);
           } else if (response.status === 403) {
-            navigate("/Spot-It/v1/login");
+            navigate("/v1/login");
             localStorage.setItem("userData", null);
           }
         } catch (error) {
@@ -60,7 +60,7 @@ const ChatPage = () => {
   const getConversation = async (userID) => {
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_BASE_URL}/Spot-It/v1/userin/chat/accessChat/${userID}`,
+        `${process.env.REACT_APP_BACKEND_BASE_URL}/v1/userin/chat/accessChat/${userID}`,
         {
           method: "GET",
           headers: {

@@ -41,7 +41,7 @@ const Signup = () => {
         try {
           const username = e.target.value.toLowerCase();
           const response = await fetch(
-            `${process.env.REACT_APP_BACKEND_BASE_URL}/Spot-It/v1/usernameCheck`,
+            `${process.env.REACT_APP_BACKEND_BASE_URL}/v1/usernameCheck`,
             {
               method: "POST",
               headers: {
@@ -105,7 +105,7 @@ const Signup = () => {
       //posting client information :
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_BACKEND_BASE_URL}/Spot-It/v1/Signup`,
+          `${process.env.REACT_APP_BACKEND_BASE_URL}/v1/Signup`,
           {
             method: "POST",
             headers: {
@@ -127,7 +127,7 @@ const Signup = () => {
           localStorage.setItem("userData", JSON.stringify(data.userData));
 
           setAuthUser(data.userData);
-          navigate(`/Spot-It/v1/emailVerification`);
+          navigate(`/v1/emailVerification`);
           toast.success("Welcome to Spot-It!");
         } else if (response.status === 409) {
           setErrorMessage(data.msg);
@@ -228,7 +228,7 @@ const Signup = () => {
           </form>
           <p className="login-link">
             Already have an account?{" "}
-            <a className="login-link-text" href="/Spot-It/v1/Login">
+            <a className="login-link-text" href="/v1/Login">
               Login
             </a>
           </p>

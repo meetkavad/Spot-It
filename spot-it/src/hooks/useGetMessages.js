@@ -13,7 +13,7 @@ const useGetMessages = () => {
       setLoading(true);
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_BACKEND_BASE_URL}/Spot-It/v1/userin/chat/message/${selectedConversation._id}`,
+          `${process.env.REACT_APP_BACKEND_BASE_URL}/v1/userin/chat/message/${selectedConversation._id}`,
           {
             method: "GET",
             headers: {
@@ -26,7 +26,7 @@ const useGetMessages = () => {
           if (data.messages) {
             setMessages(data.messages);
           } else if (response.status === 403) {
-            navigate("/Spot-It/v1/login");
+            navigate("/v1/login");
             localStorage.setItem("userData", null);
           } else {
             toast.error("No messages received.");

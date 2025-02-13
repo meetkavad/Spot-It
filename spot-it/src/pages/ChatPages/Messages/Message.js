@@ -68,7 +68,7 @@ const Message = ({ message }) => {
   const handleDelete = async () => {
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_BASE_URL}/Spot-It/v1/userin/chat/message/${selectedConversation._id}/${message._id}`,
+        `${process.env.REACT_APP_BACKEND_BASE_URL}/v1/userin/chat/message/${selectedConversation._id}/${message._id}`,
         {
           method: "DELETE",
           headers: {
@@ -83,7 +83,7 @@ const Message = ({ message }) => {
       }
 
       if (response.status === 403) {
-        navigate("/Spot-It/v1/login");
+        navigate("/v1/login");
         localStorage.setItem("userData", null);
       }
     } catch (error) {

@@ -28,7 +28,7 @@ const ForgotPassword = () => {
 
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_BASE_URL}/Spot-It/v1/forgotPassword`,
+        `${process.env.REACT_APP_BACKEND_BASE_URL}/v1/forgotPassword`,
         {
           method: "POST",
           headers: {
@@ -46,7 +46,7 @@ const ForgotPassword = () => {
         localStorage.setItem("jwt_token", data.token);
         localStorage.setItem("OnEmailVerification", "resetPassword");
 
-        navigate(`/Spot-It/v1/emailVerification`);
+        navigate(`/v1/emailVerification`);
         toast.success("Email Sent Successfully");
       }
     } catch (error) {

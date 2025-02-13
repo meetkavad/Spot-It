@@ -36,7 +36,7 @@ const Login = () => {
     // on clicking login button :
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_BASE_URL}/Spot-It/v1/login`,
+        `${process.env.REACT_APP_BACKEND_BASE_URL}/v1/login`,
         {
           method: "POST",
           headers: {
@@ -56,7 +56,7 @@ const Login = () => {
         localStorage.setItem("userData", JSON.stringify(data.userData));
         setAuthUser(data.userData);
         toast.success("login successful");
-        navigate(`/Spot-It/v1/userin/userPage`);
+        navigate(`/v1/userin/userPage`);
       }
     } catch (error) {
       console.log(error.message);
@@ -68,7 +68,7 @@ const Login = () => {
 
   const handleFPSubmit = async (e) => {
     e.preventDefault();
-    navigate(`/Spot-It/v1/ForgotPassword`);
+    navigate(`/v1/ForgotPassword`);
   };
 
   return (
@@ -125,7 +125,7 @@ const Login = () => {
           </form>
           <p className="signup-link">
             Don't have an account?{" "}
-            <a className="signup-link-text" href="/Spot-It/v1/Signup">
+            <a className="signup-link-text" href="/v1/Signup">
               Signup
             </a>
           </p>
