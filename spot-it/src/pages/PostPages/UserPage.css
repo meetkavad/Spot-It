@@ -1,5 +1,4 @@
-
-body::-webkit-scrollbar{
+body::-webkit-scrollbar {
   display: none;
 }
 
@@ -33,30 +32,32 @@ body::-webkit-scrollbar{
   margin-bottom: 35px;
 }
 
-.search-bar  input::placeholder{
+.search-bar input::placeholder {
   font-style: italic;
 }
 
 .search-item-input {
   border-radius: 5px;
   border: 2px solid black;
+  padding: 10px;
+  flex: 1;
 }
 
 .search-item-button {
   margin-left: 10px;
   border-radius: 5px;
-  background-color: white;
-  color: black;
+  background-color: black;
+  color: white;
   font-weight: bold;
-  padding: 0px 15px;
+  padding: 10px 20px;
   cursor: pointer;
 }
 
 .search-item-button:hover {
   border: 2px solid black;
   transition: 0.2s ease;
-  background-color: black;
-  color: white;
+  background-color: white;
+  color: black;
 }
 
 .lost-found-buttons {
@@ -69,12 +70,12 @@ body::-webkit-scrollbar{
 
 .lost-post-button,
 .found-post-button {
-  font-size: 2.1rem;
+  font-size: 1.5rem;
   margin: 20px 20px;
   background-color: #000;
   color: #fff;
   border: none;
-  border-radius: 100%;
+  border-radius: 5px;
   padding: 10px 20px;
   cursor: pointer;
   border: 3px solid black;
@@ -143,7 +144,6 @@ body::-webkit-scrollbar{
   object-fit: contain;
 }
 
-
 .item-name,
 .location,
 .description {
@@ -156,20 +156,20 @@ body::-webkit-scrollbar{
   margin-bottom: -10px;
 }
 
-.item_name_heading, 
+.item_name_heading,
 .location-heading,
-.description-heading{
+.description-heading {
   margin-top: 20px;
   margin-bottom: -10px;
 }
 
-.post-item_name:hover{
+.post-item_name:hover {
   cursor: pointer;
   font-style: italic;
   text-transform: uppercase;
-
 }
-.post-location:hover{
+
+.post-location:hover {
   cursor: pointer;
   font-style: italic;
   text-transform: uppercase;
@@ -184,11 +184,11 @@ body::-webkit-scrollbar{
 }
 
 .post-description::-webkit-scrollbar {
-  width: 6px; 
+  width: 6px;
 }
 
 .post-description::-webkit-scrollbar-track {
-  background: #f1f1f1; 
+  background: #f1f1f1;
 }
 
 .post-description::-webkit-scrollbar-thumb {
@@ -199,7 +199,6 @@ body::-webkit-scrollbar{
 .post-description::-webkit-scrollbar-thumb:hover {
   background: #555; /* Color of the scrollbar thumb on hover */
 }
-
 
 .footer-buttons {
   display: flex;
@@ -219,8 +218,7 @@ body::-webkit-scrollbar{
 
 /* Media Queries for Responsiveness */
 @media (max-width: 1024px) {
-
-  .posts-container{
+  .posts-container {
     justify-content: center;
   }
 
@@ -236,7 +234,6 @@ body::-webkit-scrollbar{
 }
 
 @media (max-width: 768px) {
-
   .create-post-button {
     top: 86%;
     left: 85%;

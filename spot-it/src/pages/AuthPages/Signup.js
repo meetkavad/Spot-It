@@ -95,10 +95,12 @@ const Signup = () => {
     //checking for password match :
     if (password !== confirmPassword) {
       setErrorMessage("Passwords didn't matched!");
+      hideLoader();
       // checking for password length :
     } else if (password.length < 8) {
       setPasswordText("password should atleast 8 characters long");
       setPasswordTextClass("red");
+      hideLoader();
       //allowing only if username and password are correctly set :
     } else if (usernameClass === "green" && passwordTextClass === "green") {
       setErrorMessage("");

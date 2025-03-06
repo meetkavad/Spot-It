@@ -145,7 +145,7 @@ const UserPage = () => {
               inputRef.current.value = "";
             }}
           >
-            L
+            Lost
           </button>
           <button
             className={"found-post-button" + ` ${foundButtonClass}`}
@@ -157,7 +157,7 @@ const UserPage = () => {
               inputRef.current.value = "";
             }}
           >
-            F
+            Found
           </button>
         </div>
         <div className="search-bar">
