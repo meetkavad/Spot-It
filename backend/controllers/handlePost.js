@@ -60,7 +60,7 @@ const getUserPagePosts = async (req, res) => {
           item_name: post.item_name,
           location: post.location,
           description: post.description,
-          // updatedAt: post.updatedAt,
+          date: post.date,
         };
         return {
           post_id,
@@ -72,11 +72,11 @@ const getUserPagePosts = async (req, res) => {
     );
     // trying sorting the post on basis of time :
 
-    // formattedPosts.sort(
-    //   (a, b) =>
-    //     new Date(b.additionalInfo.updatedAt).getTime() -
-    //     new Date(a.additionalInfo.updatedAt).getTime()
-    // );
+    formattedPosts.sort(
+      (a, b) =>
+        new Date(b.additionalInfo.date).getTime() -
+        new Date(a.additionalInfo.date).getTime()
+    );
     res.status(200).json({
       posts: formattedPosts,
     });

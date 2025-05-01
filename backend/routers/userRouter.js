@@ -21,7 +21,7 @@ userRouter.route("/userPage/:type").get(authenticateToken, getUserPagePosts);
 userRouter.route("/:postID/getPost").get(authenticateToken, getPost);
 userRouter.route("/:postID/deletePost").delete(authenticateToken, deletePost);
 
-// play with comments :
+// play with comments:
 const {
   createComment,
   getComments,

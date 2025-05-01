@@ -43,6 +43,8 @@ const getComments = async (req, res) => {
   const postID = req.params.postID;
   const post = await PostModel.findById(postID);
   if (post) {
+    // sorted in descending order:
+    post.comments.sort((a, b) => b.timestamp - a.timestamp);
     res.status(200).json({ comments: post.comments });
   } else {
     res.status(404).json({ msg: "post not found" });
@@ -63,6 +65,7 @@ const deleteComment = async (req, res) => {
     res.status(404).json({ msg: "post not found" });
   }
 };
+
 const editComment = async (req, res) => {};
 
 module.exports = {

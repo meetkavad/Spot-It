@@ -52,7 +52,7 @@ const PostSchema = new mongoose.Schema({
   ],
   date: {
     type: Date,
-    timeStamp: Date.now,
+    default: Date.now,
   },
 });
 
