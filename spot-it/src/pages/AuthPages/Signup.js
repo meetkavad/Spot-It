@@ -102,6 +102,17 @@ const Signup = () => {
       setPasswordTextClass("red");
       hideLoader();
       //allowing only if username and password are correctly set :
+    }
+    if (password.length >= 8) {
+      if (!/[A-Z]/.test(password)) {
+        hideLoader();
+      } else if (!/[a-z]/.test(password)) {
+        hideLoader();
+      } else if (!/\d/.test(password)) {
+        hideLoader();
+      } else if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+        hideLoader();
+      }
     } else if (usernameClass === "green" && passwordTextClass === "green") {
       setErrorMessage("");
       //posting client information :
