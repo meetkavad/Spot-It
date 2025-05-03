@@ -73,7 +73,6 @@ const PostUserSignup = async (req, res) => {
 
     // generating code for email verification :
     const email_code = generateCode();
-    // console.log(email_code);
     user.email.verification_code = email_code;
     await user.save();
 
@@ -92,26 +91,37 @@ const PostUserSignup = async (req, res) => {
                 </div> `,
     };
 
-    transporter.sendMail(mailOptions, async (error, info) => {
-      if (error) {
-        console.log(error.message);
-        // Attempt to delete the user :
-        await UserModel.findOneAndDelete({
-          "email.address": email, // email : {address : email} didn't worked here...
+    // Trying to send the Email:
+    try {
+      await new Promise((resolve, reject) => {
+        transporter.sendMail(mailOptions, (error, info) => {
+          if (error) {
+            console.log("Email error:", error.message);
+            reject(error);
+          } else {
+            console.log("Email sent:", info.response);
+            resolve(info);
+          }
         });
-        console.log("user deleted!!");
+      });
 
-        return res.status(500).json({
-          error: "Email could not be sent , Provide a valid email address!",
-        });
-      }
-      //Final Response on success :
-      res.json({
+      // Only reach here if email was sent successfully
+      return res.status(200).json({
         message: "Email sent for verification",
         jwt_token: jwt_token,
-        userData: user,
       });
-    });
+    } catch (emailError) {
+      console.log("Email sending failed:", emailError.message);
+      // Attempt to delete the user
+      await UserModel.findOneAndDelete({
+        "email.address": email,
+      });
+      console.log("User deleted due to email failure");
+
+      return res.status(500).json({
+        error: "Email could not be sent. Please provide a valid email address!",
+      });
+    }
   } catch (error) {
     console.log(error.message);
   }
@@ -135,10 +145,9 @@ const PostEmailVerification = async (req, res) => {
     await user.save();
     res.status(200).json({
       msg: "Email Verified",
+      userData: user,
     });
   } else {
-    console.log(email_code);
-    console.log(user.email.verification_code);
     // Attempt to delete the user :
     await UserModel.deleteOne({ _id: user_id });
     console.log("user deleted!!");

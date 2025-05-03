@@ -92,30 +92,24 @@ const Signup = () => {
 
     var { username, email, password, confirmPassword } = formData;
     username = username.toLowerCase();
-    //checking for password match :
-    if (password !== confirmPassword) {
+
+    //checking for username and password match :
+    if (username.length < 4) {
+      setErrorMessage("Username should be atleast 4 characters long");
+      hideLoader();
+    } else if (password !== confirmPassword) {
       setErrorMessage("Passwords didn't matched!");
       hideLoader();
-      // checking for password length :
     } else if (password.length < 8) {
       setPasswordText("password should atleast 8 characters long");
       setPasswordTextClass("red");
       hideLoader();
-      //allowing only if username and password are correctly set :
-    }
-    if (password.length >= 8) {
-      if (!/[A-Z]/.test(password)) {
-        hideLoader();
-      } else if (!/[a-z]/.test(password)) {
-        hideLoader();
-      } else if (!/\d/.test(password)) {
-        hideLoader();
-      } else if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
-        hideLoader();
-      }
+    } else if (passwordTextClass === "red") {
+      // this happens when password is weak
+      hideLoader();
     } else if (usernameClass === "green" && passwordTextClass === "green") {
       setErrorMessage("");
-      //posting client information :
+      //posting user information :
       try {
         const response = await fetch(
           `${process.env.REACT_APP_BACKEND_BASE_URL}/v1/Signup`,
@@ -137,9 +131,7 @@ const Signup = () => {
 
           localStorage.setItem("jwt_token", data.jwt_token);
           localStorage.setItem("OnEmailVerification", "homepage");
-          localStorage.setItem("userData", JSON.stringify(data.userData));
 
-          setAuthUser(data.userData);
           navigate(`/v1/emailVerification`);
           toast.success("Welcome to Spot-It!");
         } else if (response.status === 409) {

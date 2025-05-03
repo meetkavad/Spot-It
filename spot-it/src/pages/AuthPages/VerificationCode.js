@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./VerificationCode.css";
 import Navbar from "../../components/Navbar";
 import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../../context/authContext.js";
 import { useLoading } from "../../hooks/useLoading.js";
 import Loader from "../../components/Loader.js";
 import toast from "react-hot-toast";
@@ -12,6 +13,7 @@ const VerificationCode = () => {
   // retreiving jwt token from localstorage ;
   const jwt_token = localStorage.getItem("jwt_token");
   const OnEmailVerification = localStorage.getItem("OnEmailVerification");
+  const { setAuthUser } = useAuthContext();
 
   const { loading, showLoader, hideLoader } = useLoading();
   const [formData, setFormData] = useState({
@@ -56,6 +58,8 @@ const VerificationCode = () => {
         if (OnEmailVerification === "resetPassword") {
           navigate(`/v1/resetPassword`);
         } else {
+          localStorage.setItem("userData", JSON.stringify(data.userData));
+          setAuthUser(data.userData);
           navigate(`/v1/userin/userPage`);
         }
       }
