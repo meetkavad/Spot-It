@@ -176,3 +176,129 @@
   .three-dots {
     cursor: pointer;
   }
+
+  /* Reply message styling */
+.send-message-input {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    background-color: #fff;
+    border-top: 1px solid #ccc;
+    gap: 8px;
+    flex-shrink: 0;
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
+  }
+  
+  .reply-message {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #f0f2f5;
+    border-left: 4px solid #4caf50;
+    border-radius: 8px;
+    padding: 8px 12px;
+    margin-bottom: 5px;
+    max-height: 60px;
+    overflow: hidden;
+  }
+  
+  .reply-message p {
+    margin: 0;
+    font-size: 13px;
+    color: #444;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 90%;
+  }
+  
+  .reply-message button {
+    background: none;
+    border: none;
+    color: #888;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 50%;
+  }
+  
+  .reply-message button:hover {
+    background-color: #e0e0e0;
+    color: #555;
+  }
+  
+  .input-button-container {
+    display: flex;
+    width: 100%;
+    gap: 10px;
+  }
+  
+  .send-message-input input {
+    flex: 1;
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    font-size: 16px;
+    outline: none;
+  }
+  
+  .send-message-input button[type="submit"] {
+    padding: 10px 20px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+  }
+
+  /* Reply preview styling for messages */
+.reply-preview {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-left: 3px solid rgba(255, 255, 255, 0.7);
+    border-radius: 4px;
+    padding: 6px 10px;
+    margin-bottom: 6px;
+    max-height: 45px;
+    overflow: hidden;
+    margin: 10px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+  }
+  
+  .reply-content {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .reply-text {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    font-style: italic;
+  }
+  
+  /* Adjust the left side messages to have different colored reply highlight */
+  .chat-left .reply-preview {
+    background-color: rgba(0, 0, 0, 0.1);
+    border-left: 3px solid rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Add sender name to the reply preview */
+  .reply-sender {
+    font-size: 11px;
+    font-weight: 600;
+    margin-bottom: 2px;
+    color: rgba(255, 255, 255, 0.9);
+  }
+  
+  .chat-left .reply-sender {
+    color: rgba(255, 255, 255, 0.9);
+  }

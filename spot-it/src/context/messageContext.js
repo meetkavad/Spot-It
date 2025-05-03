@@ -8,9 +8,12 @@ export const useMessageContext = () => {
 
 export const MessageContextProvider = ({ children }) => {
   const [editMessage, setEditMessage] = useState(null);
+  const [replyMessage, setReplyMessage] = useState(null);
 
   return (
-    <MessageContext.Provider value={{ editMessage, setEditMessage }}>
+    <MessageContext.Provider
+      value={{ editMessage, setEditMessage, replyMessage, setReplyMessage }}
+    >
       {children}
     </MessageContext.Provider>
   );

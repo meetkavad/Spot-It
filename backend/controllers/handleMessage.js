@@ -5,7 +5,7 @@ const { io, getReceiverSocketId } = require("../socket/socket.js");
 
 const sendMessage = async (req, res) => {
   const { chatID } = req.params;
-  const content = req.body.message;
+  const { content, replyTo } = req.body;
 
   if (!content || !chatID) {
     console.log("Invalid chat ");
@@ -16,16 +16,27 @@ const sendMessage = async (req, res) => {
     sender: req.user.id,
     content: content,
     chat: chatID,
+    replyTo: replyTo ? replyTo : null,
   };
 
   try {
     const newMessage = await MessageModel.create(messageObj);
 
+    // update the old message's toReply field, if the message is a reply to another message:
+    if (replyTo) {
+      const oldMessage = await MessageModel.findOne({ _id: replyTo });
+      if (oldMessage) {
+        oldMessage.toReply = newMessage._id;
+        await oldMessage.save();
+      }
+    }
+
     var message = await MessageModel.findOne({
       _id: newMessage._id,
     })
       .populate("sender", "username")
-      .populate("chat");
+      .populate("chat")
+      .populate("replyTo", "content");
 
     message = await UserModel.populate(message, {
       path: "chat.users",
@@ -65,7 +76,8 @@ const allMessages = async (req, res) => {
 
   var messages = await MessageModel.find({ chat: chatID })
     .populate("sender", "username")
-    .populate("chat");
+    .populate("chat")
+    .populate("replyTo", "content");
 
   messages = await UserModel.populate(messages, {
     path: "chat.users",
@@ -127,6 +139,29 @@ const deleteMessage = async (req, res) => {
   try {
     // get the latest message first:
     const chat = await ChatModel.findOne({ _id: chatID });
+
+    // delete the dependency of the message ie. replyTo and toReply:
+    const message = await MessageModel.findOne({ _id: messageID });
+
+    // if the message is a reply to another message, then update the old message's toReply field:
+    if (message.replyTo) {
+      const oldMessage = await MessageModel.findOne({ _id: message.replyTo });
+      if (oldMessage) {
+        oldMessage.toReply = null;
+        await oldMessage.save();
+      }
+    }
+
+    // if the message has a reply message, then update the reply message's replyTo field:
+    if (message.toReply) {
+      const replyMessage = await MessageModel.findOne({
+        _id: message.toReply,
+      });
+      if (replyMessage) {
+        replyMessage.replyTo = null;
+        await replyMessage.save();
+      }
+    }
 
     // delete the message:
     const deletedMessage = await MessageModel.findOneAndDelete({

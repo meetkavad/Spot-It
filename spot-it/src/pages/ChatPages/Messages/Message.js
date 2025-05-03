@@ -23,7 +23,8 @@ function padZero(number) {
 const Message = ({ message }) => {
   const { authUser } = useAuthContext();
   const { selectedConversation } = useConversation();
-  const { editMessage, setEditMessage } = useMessageContext();
+  const { editMessage, setEditMessage, replyMessage, setReplyMessage } =
+    useMessageContext();
   const { messages, setMessages } = useConversation();
   const navigate = useNavigate();
 
@@ -41,9 +42,10 @@ const Message = ({ message }) => {
   const chatClassName = fromMe ? "chat-right" : "chat-left";
   const formattedTime = getDate(message.createdAt);
   //   const profilePic = fromMe ? authUser.profilePic :  message.sender.profilePic;
-
   const canEdit =
     fromMe && new Date() - new Date(message.createdAt) < 10 * 60 * 1000; // 10 minutes
+
+  const canReply = message.toReply === undefined || message.toReply === null;
   const canDelete = fromMe;
 
   const handleCopy = () => {
@@ -65,6 +67,14 @@ const Message = ({ message }) => {
     });
   };
 
+  const handleReply = () => {
+    setReplyMessage({
+      content: message.content,
+      id: message._id,
+      conversationId: selectedConversation._id,
+    });
+  };
+
   const handleDelete = async () => {
     try {
       const response = await fetch(
@@ -77,8 +87,22 @@ const Message = ({ message }) => {
         }
       );
       if (response.ok) {
+        const oldMessage = message.replyTo;
+        console.log("message;", message.replyTo);
+        if (oldMessage) {
+          const updatedMessages = messages.map((msg) => {
+            if (msg._id.toString() === oldMessage._id.toString()) {
+              return { ...msg, toReply: null };
+            }
+
+            return msg;
+          });
+          setMessages(updatedMessages);
+        }
         setMessages(messages.filter((msg) => msg._id !== message._id));
+
         setEditMessage(null);
+        setReplyMessage(null);
         toast.success("Message deleted!");
       }
 
@@ -98,6 +122,23 @@ const Message = ({ message }) => {
       </div> */}
       {/* <div>{message.sender?._id}</div> */}
       <div className="chat-bubble">
+        {message.replyTo && (
+          <div className="reply-preview">
+            <div className="reply-content">
+              <span className="reply-sender">
+                {message.replyTo.sender &&
+                message.replyTo.sender._id === authUser._id
+                  ? "You"
+                  : message.replyTo.sender?.username || "User"}
+              </span>
+              <p className="reply-text">
+                {message.replyTo.content && message.replyTo.content.length > 50
+                  ? `${message.replyTo.content.substring(0, 50)}...`
+                  : message.replyTo.content || ""}
+              </p>
+            </div>
+          </div>
+        )}
         <p className="message-content">{message.content}</p>
 
         <div className="message-operation-container">
@@ -105,6 +146,7 @@ const Message = ({ message }) => {
           <div className="three-dots-container">
             <div className="message-operation-list">
               {canEdit && <button onClick={handleEdit}>Edit</button>}
+              {canReply && <button onClick={handleReply}>Reply</button>}
               {canDelete && <button onClick={handleDelete}>Delete</button>}
               <button onClick={handleCopy}>Copy</button>
             </div>

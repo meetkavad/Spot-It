@@ -14,6 +14,10 @@ const MessageSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "MessageModel",
     },
+    toReply: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "MessageModel",
+    },
     chat: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "ChatModel",
