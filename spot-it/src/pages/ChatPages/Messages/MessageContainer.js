@@ -5,6 +5,7 @@ import { Messages } from "./Messages";
 import MessageInput from "./MessageInput.js";
 import { useAuthContext } from "../../../context/authContext.js";
 import "./Messages.css";
+import { Navigate } from "react-router-dom";
 
 export const MessageContainer = () => {
   const { selectedConversation, setSelectedConversation } = useConversation();

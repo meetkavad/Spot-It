@@ -1,7 +1,7 @@
-import React from "react";
-import "./UserNavbar.css"; // Create a new CSS file for UserNavbar styles
+import React, { useContext, useEffect, useState } from "react";
+import "./UserNavbar.css";
+import { useAuthContext } from "../context/authContext.js";
 
-// font-awesome icons :
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUser,
@@ -11,6 +11,38 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 const UserNavbar = () => {
+  const [unreadCount, setUnreadCount] = useState(0);
+  const { authUser } = useAuthContext();
+
+  useEffect(() => {
+    if (!authUser) return;
+
+    const fetchUnreadMessages = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.REACT_APP_BACKEND_BASE_URL}/v1/userin/chat/unreadCount`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `${localStorage.getItem("jwt_token")}`,
+            },
+          }
+        );
+        const data = await response.json();
+        setUnreadCount(data.count);
+      } catch (error) {
+        console.error("Failed to fetch unread messages count:", error);
+      }
+    };
+
+    fetchUnreadMessages();
+
+    const intervalId = setInterval(fetchUnreadMessages, 30000);
+
+    // Clean up on component unmount
+    return () => clearInterval(intervalId);
+  }, [authUser]);
+
   return (
     <div id="user-navbar">
       <a href="/v1/Landing">
@@ -25,6 +57,9 @@ const UserNavbar = () => {
         <div className="icon">
           <a className="fas fa-message" href="/v1/userin/chat">
             <FontAwesomeIcon icon={faMessage} style={{ height: "3vh" }} />
+            {unreadCount > 0 && (
+              <span className="notification-badge">{unreadCount}</span>
+            )}
           </a>
         </div>
         <div className="icon">

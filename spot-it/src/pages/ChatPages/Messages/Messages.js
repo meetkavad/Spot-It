@@ -1,10 +1,15 @@
 import { useEffect, useRef } from "react";
 import useGetMessages from "../../../hooks/useGetMessages.js";
+import { useAuthContext } from "../../../context/authContext.js";
+import { useConversation } from "../../../zustand/useConversation.js";
+
 import Message from "./Message";
 import { useListenMessages } from "../../../hooks/useListenMessages.js";
 
 export const Messages = () => {
   const { messages, loading } = useGetMessages();
+  const { selectedConversation, setSelectedConversation } = useConversation();
+  const { authUser } = useAuthContext();
 
   // to listen to any incoming messages:
   useListenMessages();
@@ -17,9 +22,38 @@ export const Messages = () => {
         behavior: "smooth",
       });
     }, 300);
-  }, [messages]);
 
-  console.log(messages);
+    // to set the conversation read by user:
+    // make the chat read by the user:
+    const markAsRead = async () => {
+      try {
+        console.log("CONVERSATION ID: ", selectedConversation._id);
+        const response = await fetch(
+          `${process.env.REACT_APP_BACKEND_BASE_URL}/v1/userin/chat/markAsRead/${selectedConversation._id}`,
+          {
+            method: "PATCH",
+            headers: {
+              Authorization: `${localStorage.getItem("jwt_token")}`,
+            },
+          }
+        );
+        if (response.status === 200) {
+          console.log("marked as read!");
+        }
+      } catch (error) {
+        console.error(error.message);
+      }
+    };
+
+    // if the selected conversation is not read by the user:
+    if (
+      selectedConversation &&
+      selectedConversation.readBy.length > 0 &&
+      !selectedConversation.readBy.includes(authUser._id)
+    ) {
+      markAsRead();
+    }
+  }, [messages, selectedConversation]);
 
   return (
     <div className="messages-in-chat">

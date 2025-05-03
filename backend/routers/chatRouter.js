@@ -10,6 +10,8 @@ const {
   renameGroup,
   addToGroup,
   removeFromGroup,
+  markChatAsRead,
+  getUnreadChatCount,
 } = require("../controllers/handleChat.js");
 
 // searching for users :
@@ -20,6 +22,14 @@ chatRouter.route("/accessChat/:userID").get(authenticateToken, accessChat);
 
 // fetching all chats of a user :
 chatRouter.route("/fetchChats").get(authenticateToken, fetchChats);
+
+//marking a chat as read:
+chatRouter
+  .route("/markAsRead/:chatId")
+  .patch(authenticateToken, markChatAsRead);
+
+// getting unread chat count:
+chatRouter.route("/unreadCount").get(authenticateToken, getUnreadChatCount);
 
 // creating a group chat :
 chatRouter.route("/group").post(authenticateToken, createGroupChat);

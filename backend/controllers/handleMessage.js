@@ -32,8 +32,10 @@ const sendMessage = async (req, res) => {
       select: "username",
     });
 
+    // update the latest message in the chat + mark it as read by the sender:
     await ChatModel.findByIdAndUpdate(chatID, {
       latestMessage: message._id,
+      $set: { readBy: [req.user.id] },
     });
 
     //get receiver Id:

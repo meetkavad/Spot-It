@@ -50,11 +50,20 @@ export const Conversation = ({ conversation }) => {
           <p className="user-chat-latest-message">
             {conversation.latestMessage ? (
               <>
-                {conversation.latestMessage.sender.username ===
-                authUser.username
-                  ? "You"
-                  : conversation.latestMessage.sender.username}{" "}
-                : {conversation.latestMessage.content}
+                <span
+                  className={
+                    conversation.readBy.length > 0 &&
+                    !conversation.readBy.includes(authUser._id)
+                      ? "bold"
+                      : ""
+                  }
+                >
+                  {conversation.latestMessage.sender.username ===
+                  authUser.username
+                    ? "You"
+                    : conversation.latestMessage.sender.username}{" "}
+                  : {conversation.latestMessage.content}
+                </span>
               </>
             ) : (
               "start chat"

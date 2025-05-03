@@ -18,6 +18,7 @@ const SearchUser = async (req, res) => {
   res.status(200).json({ users: users });
 };
 
+// fetching a conversation:
 const accessChat = async (req, res) => {
   try {
     const { userID } = req.params;
@@ -67,6 +68,49 @@ const accessChat = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).send("Server Error.");
+  }
+};
+
+// Mark a chat as read for a user:
+const markChatAsRead = async (req, res) => {
+  const chatId = req.params.chatId;
+  const userId = req.user.id;
+
+  try {
+    const chat = await ChatModel.findByIdAndUpdate(
+      chatId,
+      { $addToSet: { readBy: userId } },
+      { new: true }
+    );
+
+    if (!chat) {
+      return res.status(404).json({ msg: "Chat not found" });
+    }
+
+    res.status(200).json({ msg: "Chat marked as read" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ msg: "Server error" });
+  }
+};
+
+// get unread chat count:
+const getUnreadChatCount = async (req, res) => {
+  const userId = req.user.id;
+  try {
+    const unreadChats = await ChatModel.find({
+      users: { $elemMatch: { $eq: userId } },
+      $and: [
+        { readBy: { $exists: true } }, // Chat should have readBy array
+        { readBy: { $ne: [] } }, // readBy array is not empty
+        { readBy: { $ne: userId } }, // userId is not in readBy array
+      ],
+    }).countDocuments();
+
+    res.status(200).json({ count: unreadChats });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ msg: "Server error" });
   }
 };
 
@@ -187,4 +231,6 @@ module.exports = {
   renameGroup,
   addToGroup,
   removeFromGroup,
+  markChatAsRead,
+  getUnreadChatCount,
 };

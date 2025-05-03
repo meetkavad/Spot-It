@@ -11,6 +11,12 @@ const ChatSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    readBy: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "UserModel",
+      },
+    ],
     users: [
       {
         type: mongoose.Schema.Types.ObjectId,
