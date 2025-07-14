@@ -6,7 +6,7 @@ Spot-It is a real-time web application built using the MERN stack to simplify th
 
 ## 🌐 Live Demo
 
-Access the app here: [https://spot-it.vercel.app](https://spot-it.vercel.app)
+Access the app here: [https://spot-it-jllp.vercel.app/](https://spot-it-jllp.vercel.app/)
 
 ---
 
