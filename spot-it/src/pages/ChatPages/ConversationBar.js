@@ -12,14 +12,21 @@ export const Conversation = ({ conversation }) => {
   const { loading, showLoader, hideLoader } = useLoading();
   const { selectedConversation, setSelectedConversation } = useConversation();
   const isSelected = selectedConversation?._id === conversation._id;
+
   const { authUser } = useAuthContext();
 
   const { onlineUsers } = useContext(SocketContext);
 
   // current conversation user apart from the one who is logged in:
-  const user = conversation.users.find((user) => user._id !== authUser._id);
+  const friend = conversation.users.find((user) => user._id !== authUser._id);
+
+  // if opposite user no longer exists:
+  if (!friend) {
+    return null;
+  }
+
   // to check that particular user is online or not:
-  const isOnline = onlineUsers.includes(user._id);
+  const isOnline = onlineUsers.includes(friend._id);
 
   return (
     <>
@@ -28,14 +35,16 @@ export const Conversation = ({ conversation }) => {
         className={`conversationComponentClass ${
           isSelected ? "selectedClass" : ""
         }`}
-        onClick={() => setSelectedConversation(conversation)}
+        onClick={() => {
+          setSelectedConversation(conversation);
+        }}
       >
         <div className="conversation-item">
           <div className="user-chat-heading">
             <div className="user-chat-image-container">
               <img
                 className="user-chat-image"
-                src="/image.png"
+                src={friend.profile_pic?.url || "/image.png"}
                 alt="user-image"
               />
               {isOnline && <p className="online-dot"></p>}
@@ -43,8 +52,7 @@ export const Conversation = ({ conversation }) => {
             <p className="user-chat-name bold ">
               {conversation.isGroupChat
                 ? conversation.chatName
-                : conversation.users.find((user) => user._id !== authUser._id)
-                    .username}
+                : friend.username}
             </p>
           </div>
           <p className="user-chat-latest-message">

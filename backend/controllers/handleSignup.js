@@ -68,7 +68,7 @@ const PostUserSignup = async (req, res) => {
 
     //creating json web token :
     const jwt_token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "24h",
+      expiresIn: "7d",
     });
 
     // generating code for email verification :

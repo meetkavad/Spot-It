@@ -2,7 +2,7 @@
   text-align: center;
   flex : 1 ;
   background-color: black;
-  height : 89vh;
+  min-height : 89vh;
   }
   
   .create-post-text{

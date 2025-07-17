@@ -18,10 +18,31 @@ const CreatePost = () => {
     location: "",
     description: "",
   });
+  const [imagePreview, setImagePreview] = useState("");
 
   const handleChange = (e) => {
     if (e.target.type === "file") {
-      setFormData({ ...formData, image: e.target.files[0] });
+      setErrorMessage(""); // Reset error message on new file selection
+
+      const file = e.target.files[0];
+
+      if (!file) return;
+
+      const allowedTypes = ["image/jpeg", "image/png", "image/jpg"];
+
+      if (!allowedTypes.includes(file.type)) {
+        setErrorMessage("Only JPG, JPEG, and PNG formats are allowed.");
+        return;
+      }
+
+      const maxSize = 2 * 1024 * 1024; // 2MB
+      if (file.size > maxSize) {
+        setErrorMessage("Image size should be under 2MB.");
+        return;
+      }
+
+      setFormData({ ...formData, image: file });
+      setImagePreview(URL.createObjectURL(file)); // Set preview
     } else {
       setFormData({ ...formData, [e.target.name]: e.target.value });
     }
@@ -73,6 +94,15 @@ const CreatePost = () => {
     navigate("/v1/userin/userPage");
   };
 
+  // Cleanup image preview URL on component unmount
+  useEffect(() => {
+    return () => {
+      if (imagePreview) {
+        URL.revokeObjectURL(imagePreview);
+      }
+    };
+  }, [imagePreview]);
+
   return (
     <>
       <UserNavbar />
@@ -109,6 +139,23 @@ const CreatePost = () => {
                 onChange={handleChange}
               />
             </div>
+            {/* to show image preview */}
+            {imagePreview && (
+              <div className="image-preview">
+                <img
+                  src={imagePreview}
+                  alt="Preview"
+                  style={{
+                    maxWidth: "100px",
+                    width: "auto",
+                    height: "auto",
+                    maxHeight: "100px",
+                    marginTop: "-10px",
+                    marginBottom: "10px",
+                  }}
+                />
+              </div>
+            )}
             <div className="form-group">
               <input
                 type="text"

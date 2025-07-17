@@ -11,8 +11,11 @@ export const Messages = () => {
   const { selectedConversation, setSelectedConversation } = useConversation();
   const { authUser } = useAuthContext();
 
+  console.log("selectedConversation", selectedConversation);
+
   // to listen to any incoming messages:
   useListenMessages();
+
   // to set the scroll to be at the last message:
   const lastMessageRef = useRef();
 
@@ -24,10 +27,8 @@ export const Messages = () => {
     }, 300);
 
     // to set the conversation read by user:
-    // make the chat read by the user:
     const markAsRead = async () => {
       try {
-        console.log("CONVERSATION ID: ", selectedConversation._id);
         const response = await fetch(
           `${process.env.REACT_APP_BACKEND_BASE_URL}/v1/userin/chat/markAsRead/${selectedConversation._id}`,
           {
@@ -53,7 +54,7 @@ export const Messages = () => {
     ) {
       markAsRead();
     }
-  }, [messages, selectedConversation]);
+  }, [messages, selectedConversation, setSelectedConversation]);
 
   return (
     <div className="messages-in-chat">
@@ -66,6 +67,14 @@ export const Messages = () => {
             <Message message={message} />
           </div>
         ))}
+
+      {/* Show seen status at the bottom if applicable */}
+      {selectedConversation.latestMessage.sender._id === authUser._id &&
+        selectedConversation.readBy.length === 2 && (
+          <div className="seen-indicator">
+            <span>Seen</span>
+          </div>
+        )}
 
       {/* {loading && [...Array(3)].map((_, idx) => <MessageSkeleton key={idx} />)} */}
       {!loading && messages.length === 0 && (

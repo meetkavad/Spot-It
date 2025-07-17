@@ -1,6 +1,10 @@
 const express = require("express");
 const userRouter = express.Router();
-const upload = require("../components/imageUploader.js");
+const {
+  uploadPostImage,
+  uploadProfilePic,
+} = require("../components/imageUploader.js");
+
 const authenticateToken = require("../controllers/authorization.js");
 
 // playing with posts :
@@ -14,8 +18,10 @@ const {
 
 userRouter
   .route("/createPost")
-  .post(authenticateToken, upload.single("image"), CreatePost);
-userRouter.route("/:postID/editPost").patch(authenticateToken, editPost);
+  .post(authenticateToken, uploadPostImage.single("image"), CreatePost);
+userRouter
+  .route("/:postID/editPost")
+  .patch(authenticateToken, uploadPostImage.single("image"), editPost);
 
 userRouter.route("/userPage/:type").get(authenticateToken, getUserPagePosts);
 userRouter.route("/:postID/getPost").get(authenticateToken, getPost);
@@ -41,8 +47,14 @@ userRouter
   .patch(authenticateToken, editComment);
 
 // accessing user profile :
-const { getProfile } = require("../controllers/handleProfile.js");
-userRouter.route("/userProfile").get(authenticateToken, getProfile);
+const {
+  getProfile,
+  updateProfile,
+} = require("../controllers/handleProfile.js");
+userRouter
+  .route("/userProfile")
+  .get(authenticateToken, getProfile)
+  .patch(authenticateToken, uploadProfilePic.single("image"), updateProfile);
 
 // notifications handling :
 const { getNotifications } = require("../controllers/handleNotifications.js");

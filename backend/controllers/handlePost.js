@@ -1,92 +1,98 @@
 const PostModel = require("../models/PostModel");
 const UserModel = require("../models/UserModel");
-const fs = require("fs");
+const cloudinary = require("../cloudinary");
 
 const CreatePost = async (req, res) => {
-  const { type, item_name, location, description } = req.body;
-  console.log(req.body);
-  // retrieving filename :
-  const { originalname, buffer, mimetype } = req.file;
-
-  const imageData = {
-    name: originalname,
-    data: buffer,
-    contentType: mimetype,
-  };
-
-  // retrieving userid from jwt to get the username :
-  const user = await UserModel.findById(req.user.id);
-  const username = user.username;
-
-  // creating post in database :
-
   try {
+    const { type, item_name, location, description } = req.body;
+
+    let imageUrl = null;
+    let imagePublicId = null;
+    if (req.file && req.file.path) {
+      imageUrl = req.file.path;
+      imagePublicId = req.file.filename;
+    }
+
+    const user = await UserModel.findById(req.user.id);
+    if (!user) {
+      return res.status(404).json({ msg: "User not found" });
+    }
+
+    const username = user.username;
+
+    // Create new post
     const post = await PostModel.create({
-      type: type,
-      username: username,
-      image: imageData,
-      item_name: item_name,
-      location: location,
-      description: description,
+      type,
+      username,
+      image_url: imageUrl, // can be null
+      image_public_id: imagePublicId,
+      item_name,
+      location,
+      description,
     });
 
-    res.status(200).json({ msg: "post uploaded successfully " });
+    res.status(200).json({ msg: "Post uploaded successfully", post });
   } catch (error) {
-    console.log(error.message);
+    console.error("Error creating post:", error.message);
+    res.status(500).json({ msg: "Internal server error" });
   }
 };
 
 const getUserPagePosts = async (req, res) => {
   try {
-    // getting whether lost posts or found posts :
     const { type } = req.params;
-    const { item } = req.query;
-    let filter = { type: type };
-    if (item && item !== "") {
-      filter = { ...filter, item_name: { $regex: item, $options: "i" } };
+    const { item, page = 1, limit = 8 } = req.query;
+
+    const pageNum = parseInt(page);
+    const limitNum = parseInt(limit);
+    const skip = (pageNum - 1) * limitNum;
+
+    // Build filter
+    let filter = { type };
+    if (item && item.trim() !== "") {
+      filter.item_name = { $regex: item, $options: "i" };
     }
 
-    const posts = await PostModel.find(filter);
+    // Fetch paginated posts
+    const posts = await PostModel.find(filter)
+      .sort({ date: -1, _id: -1 }) // Sort by date and then by ID
+      .skip(skip)
+      .limit(limitNum);
 
-    // Map over the array of posts to format the response for each post
-    const formattedPosts = await Promise.all(
-      posts.map(async (post) => {
-        const post_id = post._id;
-        const imageData = post.image.data;
-        const contentType = post.image.contentType;
-        const additionalInfo = {
-          type: post.type,
-          username: post.username,
-          item_name: post.item_name,
-          location: post.location,
-          description: post.description,
-          date: post.date,
-        };
-        return {
-          post_id,
-          imageData,
-          contentType,
-          additionalInfo,
-        };
-      })
-    );
-    // trying sorting the post on basis of time :
+    const totalPosts = await PostModel.countDocuments(filter);
 
-    formattedPosts.sort(
-      (a, b) =>
-        new Date(b.additionalInfo.date).getTime() -
-        new Date(a.additionalInfo.date).getTime()
-    );
+    // Format posts
+    const formattedPosts = posts.map((post) => {
+      const post_id = post._id;
+      const additionalInfo = {
+        type: post.type,
+        username: post.username,
+        item_name: post.item_name,
+        location: post.location,
+        description: post.description,
+        date: post.date,
+      };
+
+      return {
+        post_id,
+        image_url: post.image_url,
+        additionalInfo,
+      };
+    });
+
     res.status(200).json({
       posts: formattedPosts,
+      totalPosts: totalPosts,
+      totalPages: Math.ceil(totalPosts / limitNum),
+      currentPage: pageNum,
     });
   } catch (error) {
-    console.log(error.message);
+    console.error("Error fetching posts:", error.message);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
-// to get a particular post :
+// to get a particular post:
 const getPost = async (req, res) => {
   try {
     const { postID } = req.params;
@@ -109,6 +115,11 @@ const deletePost = async (req, res) => {
       return res.status(404).json({ msg: "post not found" });
     }
 
+    // If the post has a Cloudinary image, delete it
+    if (post.image_public_id) {
+      await cloudinary.uploader.destroy(post.image_public_id);
+    }
+
     await PostModel.findByIdAndDelete(postID);
 
     res.status(200).json({ msg: "post deleted successfully" });
@@ -122,19 +133,27 @@ const editPost = async (req, res) => {
   const { postID } = req.params;
   const { type, item_name, location, description } = req.body;
   try {
-    const newuser = await PostModel.findOneAndUpdate(
-      { _id: postID },
-      {
-        type: type,
-        item_name: item_name,
-        location: location,
-        description: description,
-      },
-      { returnOriginal: false }
-    );
+    const post = await PostModel.findById(postID);
+    if (!post) {
+      return res.status(404).json({ msg: "post not found" });
+    }
+    const updateData = { type, item_name, location, description };
+
+    if (req.file) {
+      // Delete old image from Cloudinary
+      if (post.image_public_id) {
+        await cloudinary.uploader.destroy(post.image_public_id);
+      }
+      // Update image details
+      updateData.image_url = req.file.path;
+      updateData.image_public_id = req.file.filename;
+    }
+
+    await PostModel.findByIdAndUpdate(postID, updateData, { new: true });
     res.status(200).json({ msg: "post updated successfully" });
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 

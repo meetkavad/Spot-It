@@ -30,7 +30,12 @@ const UserSchema = new mongoose.Schema({
     minLength: 8,
   },
   profile_pic: {
-    type: String, // url
+    url: {
+      type: String,
+    },
+    public_id: {
+      type: String,
+    },
   },
   notifications: [
     {
@@ -43,6 +48,28 @@ const UserSchema = new mongoose.Schema({
       },
     },
   ],
+  gender: {
+    type: String,
+  },
+  date_of_birth: {
+    type: Date,
+  },
+  location: {
+    type: String,
+  },
+  hobbies: [
+    {
+      type: String,
+    },
+  ],
+  bio: {
+    type: String,
+    maxLength: 500,
+  },
+  is_blocked: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 module.exports = mongoose.model("UserModel", UserSchema);

@@ -145,6 +145,9 @@ const Signup = () => {
       } finally {
         hideLoader();
       }
+    } else {
+      setErrorMessage("Please fill the form correctly");
+      hideLoader();
     }
   };
 

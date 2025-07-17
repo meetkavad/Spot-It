@@ -10,10 +10,11 @@ const PostSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  image: {
-    name: String,
-    data: Buffer,
-    contentType: String,
+  image_url: {
+    type: String,
+  },
+  image_public_id: {
+    type: String,
   },
   item_name: {
     type: String,
@@ -46,13 +47,13 @@ const PostSchema = new mongoose.Schema({
       },
       timestamp: {
         type: Date,
-        default: Date.now,
+        default: Date.now(),
       },
     },
   ],
   date: {
     type: Date,
-    default: Date.now,
+    default: Date.now(),
   },
 });
 

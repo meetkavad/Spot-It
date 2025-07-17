@@ -38,8 +38,6 @@ const UserNavbar = () => {
     fetchUnreadMessages();
 
     const intervalId = setInterval(fetchUnreadMessages, 30000);
-
-    // Clean up on component unmount
     return () => clearInterval(intervalId);
   }, [authUser]);
 
@@ -69,7 +67,15 @@ const UserNavbar = () => {
         </div>
         <div className="icon">
           <a className="fas fa-user" href="/v1/userin/userProfile">
-            <FontAwesomeIcon icon={faUser} style={{ height: "3vh" }} />
+            {authUser?.profile_pic?.url ? (
+              <img
+                src={authUser.profile_pic.url}
+                alt="Profile"
+                className="navbar-profile-pic"
+              />
+            ) : (
+              <FontAwesomeIcon icon={faUser} style={{ height: "3vh" }} />
+            )}
           </a>
         </div>
       </div>

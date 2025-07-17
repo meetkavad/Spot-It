@@ -1,11 +1,29 @@
 const multer = require("multer");
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const cloudinary = require("../cloudinary");
 
-const storage = multer.memoryStorage({
-  filename: (req, file, cb) => {
-    cb(null, file.fieldname + "_" + Date.now() + "_" + file.originalname);
+// For Post Images
+const postImageStorage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: "spotit_uploads/post_images",
+    allowed_formats: ["jpg", "jpeg", "png"],
   },
 });
 
-const upload = multer({ storage: storage });
+// For Profile Pictures
+const profilePicStorage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: "spotit_uploads/profile_pics",
+    allowed_formats: ["jpg", "jpeg", "png"],
+  },
+});
 
-module.exports = upload;
+const uploadPostImage = multer({ storage: postImageStorage });
+const uploadProfilePic = multer({ storage: profilePicStorage });
+
+module.exports = {
+  uploadPostImage,
+  uploadProfilePic,
+};

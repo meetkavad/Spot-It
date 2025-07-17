@@ -2,6 +2,7 @@ const PostModel = require("../models/PostModel");
 const userModel = require("../models/UserModel");
 const ChatModel = require("../models/ChatModel");
 const MessageModel = require("../models/MessageModel");
+const { io, getReceiverSocketId } = require("../socket/socket.js");
 
 const SearchUser = async (req, res) => {
   const { user } = req.query;
@@ -87,6 +88,21 @@ const markChatAsRead = async (req, res) => {
       return res.status(404).json({ msg: "Chat not found" });
     }
 
+    //get receiver Id:
+    const receiverId = chat.users
+      .filter((user) => user._id.toString() !== req.user.id)
+      .map((user) => user._id);
+
+    // socket code:
+    const receiverSocketId = getReceiverSocketId(receiverId);
+
+    if (receiverSocketId) {
+      io.to(receiverSocketId).emit("seenChat", {
+        chatId: chat._id,
+        userId: req.user.id,
+      });
+    }
+
     res.status(200).json({ msg: "Chat marked as read" });
   } catch (error) {
     console.error(error);
@@ -114,7 +130,7 @@ const getUnreadChatCount = async (req, res) => {
   }
 };
 
-// fetching all chats of a user :
+// fetching all chats of a user:
 const fetchChats = async (req, res) => {
   try {
     await ChatModel.find({

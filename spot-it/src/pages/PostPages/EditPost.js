@@ -14,14 +14,36 @@ const EditPost = () => {
 
   const [errorMessage, setErrorMessage] = useState("");
   const [formData, setFormData] = useState({
-    type: "lost", // Default type
+    type: "lost",
     item_name: "",
     location: "",
     description: "",
+    image: "",
   });
+  const [imagePreview, setImagePreview] = useState("");
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    if (e.target.type === "file") {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const allowedTypes = ["image/jpeg", "image/png", "image/jpg"];
+      if (!allowedTypes.includes(file.type)) {
+        setErrorMessage("Only JPG, JPEG, and PNG formats are allowed.");
+        return;
+      }
+
+      const maxSize = 2 * 1024 * 1024; // 2MB
+      if (file.size > maxSize) {
+        setErrorMessage("Image size should be under 2MB.");
+        return;
+      }
+
+      setFormData({ ...formData, image: file });
+      setImagePreview(URL.createObjectURL(file));
+    } else {
+      setFormData({ ...formData, [e.target.name]: e.target.value });
+    }
   };
 
   useEffect(() => {
@@ -47,6 +69,7 @@ const EditPost = () => {
         const data = await response.json();
         console.log(data.post);
         setFormData(data.post);
+        setImagePreview(data.post.image_url);
       } else if (response.status === 403) {
         navigate("/v1/login");
         localStorage.setItem("userData", null);
@@ -62,10 +85,20 @@ const EditPost = () => {
   };
 
   const handleSubmit = async (e) => {
-    showLoader();
     e.preventDefault();
+    showLoader();
 
-    const { type, item_name, location, description } = formData;
+    const { type, item_name, location, description, image } = formData;
+    const formDataObj = new FormData();
+
+    formDataObj.append("type", type);
+    formDataObj.append("item_name", item_name);
+    formDataObj.append("location", location);
+    formDataObj.append("description", description);
+
+    if (image instanceof File) {
+      formDataObj.append("image", image); // Only add if changed
+    }
 
     try {
       const response = await fetch(
@@ -73,30 +106,24 @@ const EditPost = () => {
         {
           method: "PATCH",
           headers: {
-            "Content-Type": "application/json",
             Authorization: `${localStorage.getItem("jwt_token")}`,
           },
-          body: JSON.stringify({
-            type: type,
-            item_name: item_name,
-            location: location,
-            description: description,
-          }),
+          body: formDataObj,
         }
       );
 
       if (response.status === 200) {
-        navigate("/v1/userin/userPage");
         toast.success("Post Edited Successfully");
+        navigate("/v1/userin/userPage");
       } else if (response.status === 403) {
-        navigate("/v1/login");
         localStorage.setItem("userData", null);
+        navigate("/v1/login");
       } else {
         setErrorMessage("Error editing post. Please try again.");
       }
     } catch (error) {
-      console.log(error.message);
       toast.error("Failed to edit post");
+      console.log(error.message);
     } finally {
       hideLoader();
     }
@@ -133,6 +160,23 @@ const EditPost = () => {
                 <option value="lost">Lost</option>
                 <option value="found">Found</option>
               </select>
+            </div>
+
+            <div className="form-group">
+              <label className="form-label">Image : </label>
+              <input type="file" accept="image/*" onChange={handleChange} />
+              {imagePreview && (
+                <img
+                  src={imagePreview}
+                  alt="Preview"
+                  style={{
+                    maxWidth: "100px",
+                    width: "auto",
+                    height: "auto",
+                    maxHeight: "100px",
+                  }}
+                />
+              )}
             </div>
 
             <div className="form-group">

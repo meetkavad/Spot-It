@@ -1,3 +1,24 @@
+/*
+
+%chatpage:
+`````````````````````````````````````````````````````````````
+| ALL CHAT CONTAINER   ||   %MessageContainer               |
+| .....................||...................................|
+| search bar           ||   user-name                       |
+| ---------------------||-----------------------------------|
+| %ConversationBar     || %Messages:                        |
+| conversation 1       ||                          %Message |
+| conversation 2       || Message                           |
+| .                    ||                           Message |
+| .                    ||                                  .|  
+| .                    ||.                                 .|
+| (search results or   ||-----------------------------------|
+| conversations)       ||          %messageInput            |   
+``````````````````````````````````````````````````````````````
+% prefix - denotes file names.
+
+*/
+
 import React, { useEffect, useState } from "react";
 import "./ChatPage.css";
 import "./Messages/Messages.css";
@@ -41,6 +62,7 @@ const ChatPage = () => {
           );
           if (response.status === 200) {
             const data = await response.json();
+            console.log(data.users);
             setSearchUserData(data.users);
           } else if (response.status === 403) {
             navigate("/v1/login");
