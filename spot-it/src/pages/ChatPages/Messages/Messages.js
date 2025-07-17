@@ -49,12 +49,13 @@ export const Messages = () => {
     // if the selected conversation is not read by the user:
     if (
       selectedConversation &&
+      selectedConversation.readBy &&
       selectedConversation.readBy.length > 0 &&
       !selectedConversation.readBy.includes(authUser._id)
     ) {
       markAsRead();
     }
-  }, [messages, selectedConversation, setSelectedConversation]);
+  }, [messages, selectedConversation, setSelectedConversation, authUser]);
 
   return (
     <div className="messages-in-chat">
@@ -69,8 +70,13 @@ export const Messages = () => {
         ))}
 
       {/* Show seen status at the bottom if applicable */}
-      {selectedConversation.latestMessage.sender._id === authUser._id &&
-        selectedConversation.readBy.length === 2 && (
+      {selectedConversation &&
+        selectedConversation.latestMessage &&
+        selectedConversation.latestMessage.sender &&
+        selectedConversation.latestMessage.sender._id === authUser._id &&
+        selectedConversation.readBy &&
+        selectedConversation.readBy.length >= 2 &&
+        selectedConversation.readBy.includes(authUser._id) && (
           <div className="seen-indicator">
             <span>Seen</span>
           </div>
